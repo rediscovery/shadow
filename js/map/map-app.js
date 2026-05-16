@@ -281,6 +281,9 @@ export class MapApp {
     this._rawFootprintFeatureCache = new Map();
     this._rawFootprintMetadataCache = new Map();
 
+    // Footprint shadow mesh（Three.js ExtrudeGeometry 経由）の状態管理。
+    this._footprintShadowMeshActive = false;
+
     // Altitude / Height floating label.
     this._altitudeHeightMarker = null;
     this._altitudeHeightTimers = [];
@@ -2128,58 +2131,220 @@ export class MapApp {
     }
   }
 
+  /**
+   * ズーム/モバイルによる shadow 許可ガード。
+   * モバイル（画面幅 ≤ 720 または UA 判定）では常に false。
+   * zoom < 19.0 では false。
+   */
+  _isShadowAllowed() {
+    if (typeof window !== 'undefined' && (
+      window.innerWidth <= 720 ||
+      /iPhone|iPad|iPod|Android/i.test(window.navigator?.userAgent || '')
+    )) {
+      return false;
+    }
+
+    if (!this.map) return false;
+
+    return this.map.getZoom() >= 19.0;
+  }
+
+  /**
+   * map.queryRenderedFeatures で可視 footprint を収集し、
+   * GlbCombinedLayer の scene に ExtrudeGeometry として追加する。
+   * Three.js shadow map が建物面・道路面への投影影を自動処理する。
+   */
+  _injectVisibleFootprintMeshesForShadow() {
+    if (!this.lod2Layer?.setFootprintMeshes) {
+      console.warn('[Shadow] lod2Layer.setFootprintMeshes is not available.');
+      return;
+    }
+
+    const rendered = this.map.queryRenderedFeatures(undefined, {
+      layers: [FOOTPRINT_EXTRUSION, FOOTPRINT_HIT].filter(
+        (id) => this.map.getLayer(id),
+      ),
+    });
+
+    if (!rendered?.length) {
+      console.warn('[Shadow] no rendered footprint features found');
+      return;
+    }
+
+    const seen = new Set();
+    const unique = [];
+
+    for (const f of rendered) {
+      if (!f.geometry) continue;
+      const key = f.properties?.mi ?? JSON.stringify(f.geometry.coordinates?.[0]?.[0]);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      unique.push({ type: 'Feature', geometry: f.geometry, properties: f.properties ?? {} });
+    }
+
+    const fc = { type: 'FeatureCollection', features: unique };
+
+    this.lod2Layer.setFootprintMeshes(fc, {
+      color: this._hexToThreeColorInt(this.footprintStyle.extrusionRoofColor ?? '#ffffff'),
+      wallColor: this._hexToThreeColorInt(this.footprintStyle.extrusionWallColor ?? '#c5cbe2'),
+      opacity: 1.0,
+    });
+
+    this._footprintShadowMeshActive = true;
+
+    console.info(`[Shadow] injected ${unique.length} footprint meshes into Three.js scene`);
+  }
+
+  /**
+   * 選択解除時に footprint shadow mesh を Three.js scene から除去する。
+   */
+  _clearFootprintShadowMeshes() {
+    if (!this._footprintShadowMeshActive) return;
+    this._footprintShadowMeshActive = false;
+    this.lod2Layer?.clearFootprintMeshes?.();
+  }
+
+  /**
+   * 丁単位（chomeCode）で対象丁の全フィーチャーに影を適用する。
+   * rawFootprintFeatureCache または querySourceFeatures から geometry を収集する。
+   */
+  async setChomeShadowEnabled(chomeCode, enabled) {
+    if (!enabled) {
+      this.clearChomeShadow();
+      return;
+    }
+
+    if (!this._isShadowAllowed()) {
+      console.warn('[Shadow] setChomeShadowEnabled: shadow not allowed at current zoom or on mobile.');
+      return;
+    }
+
+    if (!this.lod2Layer?.setFootprintMeshes) {
+      console.warn('[Shadow] setChomeShadowEnabled: lod2Layer.setFootprintMeshes not available.');
+      return;
+    }
+
+    // キャッシュから丁 GeoJSON を取得する
+    let fc = null;
+
+    if (this._rawFootprintFeatureCache.has(chomeCode)) {
+      const cached = await this._rawFootprintFeatureCache.get(chomeCode);
+      if (cached?.features) {
+        fc = cached;
+      }
+    }
+
+    // キャッシュになければ querySourceFeatures で収集
+    if (!fc) {
+      const rendered = this.map.querySourceFeatures(FOOTPRINT_SOURCE, {
+        sourceLayer: this.footprintSourceLayer,
+      });
+
+      if (rendered?.length) {
+        const seen = new Set();
+        const features = [];
+
+        for (const f of rendered) {
+          if (!f.geometry) continue;
+          const mi = f.properties?.mi;
+          if (mi != null && seen.has(mi)) continue;
+          if (mi != null) seen.add(mi);
+          features.push({ type: 'Feature', geometry: f.geometry, properties: f.properties ?? {} });
+        }
+
+        if (features.length) {
+          fc = { type: 'FeatureCollection', features };
+        }
+      }
+    }
+
+    if (!fc?.features?.length) {
+      console.warn('[Shadow] setChomeShadowEnabled: no features found for chome:', chomeCode);
+      return;
+    }
+
+    this.lod2Layer.setFootprintMeshes(fc, {
+      color: this._hexToThreeColorInt(this.footprintStyle.extrusionRoofColor ?? '#ffffff'),
+      wallColor: this._hexToThreeColorInt(this.footprintStyle.extrusionWallColor ?? '#c5cbe2'),
+      opacity: 1.0,
+    });
+
+    this._footprintShadowMeshActive = true;
+
+    console.info(`[Shadow] setChomeShadowEnabled: injected ${fc.features.length} features for chome=${chomeCode}`);
+  }
+
+  clearChomeShadow() {
+    this._clearFootprintShadowMeshes();
+  }
+
+  /**
+   * hex カラー文字列を Three.js で使える整数に変換する。
+   */
+  _hexToThreeColorInt(hex) {
+    const h = String(hex ?? '#ffffff').replace('#', '');
+    return parseInt(
+      h.length === 3
+        ? h.split('').map((c) => c + c).join('')
+        : h,
+      16,
+    );
+  }
+
   _runSelectedBuildingShadowFromAction(mode = null) {
     if (!this.map) return;
     if (mode && state.activeBuildingLayerMode !== mode) return;
 
     this._clearBuildingActionMenu();
 
-    if (state.activeBuildingLayerMode === 'lod2') {
-      console.info('[BuildingAction] LOD2 selected-building shadow: footprint geometry is not available yet.');
-      this._emit('buildingAction', {
-        action: 'shadow',
-        mode: state.activeBuildingLayerMode,
-        properties: state.selectedBuildingProperties ?? {},
-        geometry: null,
-      });
+    // ── ズーム/モバイルガード ───────────────────────────────────
+    if (!this._isShadowAllowed()) {
+      console.warn('[BuildingAction] Shadow is not allowed at current zoom or on mobile.');
       return;
     }
 
+    // ── LOD2 選択時 ─────────────────────────────────────────────
+    if (state.activeBuildingLayerMode === 'lod2') {
+      if (this.lod2Layer?.startSelectedBuildingShadowAnalysis) {
+        const ok = this.lod2Layer.startSelectedBuildingShadowAnalysis({
+          sunAzimuthDeg: this._lod2SunAzimuth,
+          sunElevationDeg: this._lod2SunElevation,
+        });
+
+        if (ok) {
+          console.info('[BuildingAction] LOD2 selected-building shadow analysis started.');
+        } else {
+          console.warn('[BuildingAction] LOD2 selected-building shadow analysis failed (no meshes selected).');
+        }
+
+        this._emit('buildingAction', {
+          action: 'shadow',
+          mode: state.activeBuildingLayerMode,
+          properties: state.selectedBuildingProperties ?? {},
+          geometry: null,
+        });
+      } else {
+        console.warn('[BuildingAction] lod2Layer.startSelectedBuildingShadowAnalysis is not available.');
+      }
+      return;
+    }
+
+    // ── Footprint 選択時 ─────────────────────────────────────────
     if (state.activeBuildingLayerMode !== 'footprint' || !state.selectedBuildingGeometry) {
       console.warn('[BuildingAction] Footprint selected-building shadow skipped: geometry is not available.');
       return;
     }
 
-    const properties = state.selectedBuildingProperties ?? {};
-    const heightM = this._selectedFootprintHeightMeters(properties);
-
-    // Correct order:
-    // 1) remove turquoise selection look
-    // 2) restore selected building to normal opaque footprint volume
-    // 3) draw projected shadow
+    // 1. 選択建物のターコイズ表示を通常不透過に戻す
     this._applySelectedBuildingShadowStyle();
 
-    const layer = this._ensureSelectedShadowLayer();
-    const ok = layer?.show?.({
-      geometry: state.selectedBuildingGeometry,
-      heightM,
-      sunAzimuthDeg: this._lod1SunAzimuth,
-      sunElevationDeg: this._lod1SunElevation,
-      opacity: 0.26,
-    });
-
-    this._placeSelectedShadowStackAboveRoad();
-
-    if (ok) {
-      console.info('[BuildingAction] Footprint selected-building projected shadow enabled.');
-    } else {
-      console.warn('[BuildingAction] Footprint selected-building projected shadow failed.');
-    }
+    // 2. Three.js ExtrudeGeometry 経由で影を描画（MapLibre fill フォールバックは使わない）
+    this._injectVisibleFootprintMeshesForShadow();
 
     this._emit('buildingAction', {
       action: 'shadow',
       mode: state.activeBuildingLayerMode,
-      properties,
+      properties: state.selectedBuildingProperties ?? {},
       geometry: state.selectedBuildingGeometry,
     });
   }
@@ -3461,6 +3626,7 @@ export class MapApp {
     this._clearBuildingActionMenu();
     this._stopSelectedFootprintHeightScan();
     this._clearAltitudeHeightLabel();
+    this._clearFootprintShadowMeshes();
 
     state.activeBuildingLayerMode = null;
     state.selectedBuildingId = null;
