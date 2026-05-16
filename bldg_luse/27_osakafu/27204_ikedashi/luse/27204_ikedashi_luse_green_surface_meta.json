@@ -1,0 +1,134 @@
+{
+  "generated_at": "2026-05-02T22:14:39",
+  "pref_folder": "27_osakafu",
+  "city_id": "27204_ikedashi",
+  "input_dir": "01_source/plateau/luse/27_osakafu/27204_ikedashi",
+  "source_files": [
+    "523513_luse_6697_op.gml",
+    "523523_luse_6697_op.gml"
+  ],
+  "output_green_surface": "02_generated/luse/green_surface/27_osakafu/27204_ikedashi_luse_green_surface.geojson",
+  "output_size_bytes": 314137,
+  "output_size_human": "306.77 KB",
+  "output_feature_count": 154,
+  "petiteau_class_counts": {
+    "cemetery": 11,
+    "farmland": 73,
+    "forest": 12,
+    "garden": 15,
+    "park": 21,
+    "pitch": 1,
+    "school": 21
+  },
+  "mesh_results": [
+    {
+      "source_file": "523513_luse_6697_op.gml",
+      "source_epsg": "EPSG:6697",
+      "srs_name": "http://www.opengis.net/def/crs/EPSG/0/6697",
+      "axis_order": "yx",
+      "landuse_feature_count": 261,
+      "output_feature_count": 105,
+      "landuse_name_counts": {
+        "その他の空地": 2,
+        "一般市街地": 43,
+        "公共施設": 36,
+        "公園・緑地": 17,
+        "商業業務地": 26,
+        "墓地": 3,
+        "学校": 18,
+        "官公署": 10,
+        "山林": 3,
+        "工場地": 11,
+        "水面": 14,
+        "田・休耕地": 11,
+        "畑": 43,
+        "社寺敷地・公開庭園": 10,
+        "道路・鉄軌道敷": 4,
+        "集落地": 10
+      },
+      "luse_class_counts": {
+        "201": 11,
+        "202": 43,
+        "203": 3,
+        "204": 14,
+        "211": 53,
+        "212": 26,
+        "213": 11,
+        "214": 74,
+        "215": 4,
+        "217": 20,
+        "263": 2
+      },
+      "petiteau_class_counts": {
+        "cemetery": 3,
+        "farmland": 54,
+        "forest": 3,
+        "garden": 10,
+        "park": 17,
+        "school": 18
+      },
+      "geometry_counts": {
+        "Polygon": 105
+      },
+      "output_file": "/mnt/c/Users/osawa/Desktop/petiteau_green/02_generated/luse/green_surface/27_osakafu/mesh/523513_luse_green_surface.geojson",
+      "output_size_bytes": 111797
+    },
+    {
+      "source_file": "523523_luse_6697_op.gml",
+      "source_epsg": "EPSG:6697",
+      "srs_name": "http://www.opengis.net/def/crs/EPSG/0/6697",
+      "axis_order": "yx",
+      "landuse_feature_count": 125,
+      "output_feature_count": 49,
+      "landuse_name_counts": {
+        "その他の空地": 2,
+        "一般市街地": 26,
+        "低湿地・荒蕪地": 1,
+        "公共施設": 7,
+        "公園・緑地": 4,
+        "原野・牧野": 2,
+        "商業業務地": 11,
+        "墓地": 8,
+        "学校": 3,
+        "官公署": 1,
+        "山林": 9,
+        "工場地": 4,
+        "水面": 10,
+        "田・休耕地": 10,
+        "畑": 9,
+        "社寺敷地・公開庭園": 5,
+        "運動場・遊園地": 1,
+        "道路・鉄軌道敷": 1,
+        "集落地": 11
+      },
+      "luse_class_counts": {
+        "201": 10,
+        "202": 9,
+        "203": 9,
+        "204": 10,
+        "205": 3,
+        "211": 37,
+        "212": 11,
+        "213": 4,
+        "214": 16,
+        "215": 1,
+        "217": 13,
+        "263": 2
+      },
+      "petiteau_class_counts": {
+        "cemetery": 8,
+        "farmland": 19,
+        "forest": 9,
+        "garden": 5,
+        "park": 4,
+        "pitch": 1,
+        "school": 3
+      },
+      "geometry_counts": {
+        "Polygon": 49
+      },
+      "output_file": "/mnt/c/Users/osawa/Desktop/petiteau_green/02_generated/luse/green_surface/27_osakafu/mesh/523523_luse_green_surface.geojson",
+      "output_size_bytes": 202408
+    }
+  ]
+}

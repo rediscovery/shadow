@@ -1,0 +1,392 @@
+[
+  {
+    "chome_code": "272040010",
+    "glb": "lod2_hollow/chome/272040010_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040010_lod2_hollow_index.json",
+    "bbox": [
+      135.440919657,
+      34.8560287626,
+      135.4423012399,
+      34.8582548541
+    ],
+    "size_bytes": 162716,
+    "bbox_source": "glb_position(28)"
+  },
+  {
+    "chome_code": "272040070",
+    "glb": "lod2_hollow/chome/272040070_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040070_lod2_hollow_index.json",
+    "bbox": [
+      135.4237940389,
+      34.8263344723,
+      135.4253402494,
+      34.8289491905
+    ],
+    "size_bytes": 437840,
+    "bbox_source": "glb_position(168)"
+  },
+  {
+    "chome_code": "27204008001",
+    "glb": "lod2_hollow/chome/27204008001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204008001_lod2_hollow_index.json",
+    "bbox": [
+      135.4248712993,
+      34.8257696615,
+      135.4271188845,
+      34.8272434291
+    ],
+    "size_bytes": 468436,
+    "bbox_source": "glb_position(212)"
+  },
+  {
+    "chome_code": "27204008002",
+    "glb": "lod2_hollow/chome/27204008002_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204008002_lod2_hollow_index.json",
+    "bbox": [
+      135.4248621808,
+      34.8273037416,
+      135.4270894129,
+      34.8295052952
+    ],
+    "size_bytes": 629592,
+    "bbox_source": "glb_position(252)"
+  },
+  {
+    "chome_code": "272040100",
+    "glb": "lod2_hollow/chome/272040100_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040100_lod2_hollow_index.json",
+    "bbox": [
+      135.4243122491,
+      34.8240259292,
+      135.428165796,
+      34.826524195
+    ],
+    "size_bytes": 1413416,
+    "bbox_source": "glb_position(440)"
+  },
+  {
+    "chome_code": "272040110",
+    "glb": "lod2_hollow/chome/272040110_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040110_lod2_hollow_index.json",
+    "bbox": [
+      135.4269673306,
+      34.8256688341,
+      135.4275385945,
+      34.8275151104
+    ],
+    "size_bytes": 136956,
+    "bbox_source": "glb_position(72)"
+  },
+  {
+    "chome_code": "27204015001",
+    "glb": "lod2_hollow/chome/27204015001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204015001_lod2_hollow_index.json",
+    "bbox": [
+      135.4281935152,
+      34.820183777,
+      135.4300219937,
+      34.8222391643
+    ],
+    "size_bytes": 216252,
+    "bbox_source": "glb_position(58)"
+  },
+  {
+    "chome_code": "27204015002",
+    "glb": "lod2_hollow/chome/27204015002_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204015002_lod2_hollow_index.json",
+    "bbox": [
+      135.4280639316,
+      34.819462417,
+      135.4297413617,
+      34.8209999478
+    ],
+    "size_bytes": 245208,
+    "bbox_source": "glb_position(56)"
+  },
+  {
+    "chome_code": "272040180",
+    "glb": "lod2_hollow/chome/272040180_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040180_lod2_hollow_index.json",
+    "bbox": [
+      135.4268585374,
+      34.8224458016,
+      135.4286514234,
+      34.8247113473
+    ],
+    "size_bytes": 520228,
+    "bbox_source": "glb_position(184)"
+  },
+  {
+    "chome_code": "272040190",
+    "glb": "lod2_hollow/chome/272040190_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040190_lod2_hollow_index.json",
+    "bbox": [
+      135.4259797783,
+      34.8203353836,
+      135.4279950982,
+      34.8233379363
+    ],
+    "size_bytes": 1189268,
+    "bbox_source": "glb_position(268)"
+  },
+  {
+    "chome_code": "272040200",
+    "glb": "lod2_hollow/chome/272040200_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040200_lod2_hollow_index.json",
+    "bbox": [
+      135.4241856403,
+      34.8214622409,
+      135.4267117614,
+      34.8242458456
+    ],
+    "size_bytes": 905000,
+    "bbox_source": "glb_position(266)"
+  },
+  {
+    "chome_code": "272040210",
+    "glb": "lod2_hollow/chome/272040210_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040210_lod2_hollow_index.json",
+    "bbox": [
+      135.4233278329,
+      34.8231525181,
+      135.4249476809,
+      34.8254384512
+    ],
+    "size_bytes": 352312,
+    "bbox_source": "glb_position(118)"
+  },
+  {
+    "chome_code": "272040220",
+    "glb": "lod2_hollow/chome/272040220_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040220_lod2_hollow_index.json",
+    "bbox": [
+      135.4233243832,
+      34.8252596131,
+      135.4245893445,
+      34.8268837284
+    ],
+    "size_bytes": 223948,
+    "bbox_source": "glb_position(68)"
+  },
+  {
+    "chome_code": "272040230",
+    "glb": "lod2_hollow/chome/272040230_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040230_lod2_hollow_index.json",
+    "bbox": [
+      135.4237174827,
+      34.820379226,
+      135.424701491,
+      34.8228007972
+    ],
+    "size_bytes": 295224,
+    "bbox_source": "glb_position(46)"
+  },
+  {
+    "chome_code": "272040260",
+    "glb": "lod2_hollow/chome/272040260_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040260_lod2_hollow_index.json",
+    "bbox": [
+      135.4238044869,
+      34.819458535,
+      135.4243444387,
+      34.8203056961
+    ],
+    "size_bytes": 81212,
+    "bbox_source": "glb_position(16)"
+  },
+  {
+    "chome_code": "272040270",
+    "glb": "lod2_hollow/chome/272040270_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040270_lod2_hollow_index.json",
+    "bbox": [
+      135.424408323,
+      34.8174213322,
+      135.4259305502,
+      34.8220653615
+    ],
+    "size_bytes": 1129520,
+    "bbox_source": "glb_position(314)"
+  },
+  {
+    "chome_code": "272040280",
+    "glb": "lod2_hollow/chome/272040280_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/272040280_lod2_hollow_index.json",
+    "bbox": [
+      135.4255511451,
+      34.8173564092,
+      135.4288283197,
+      34.8212621837
+    ],
+    "size_bytes": 1897192,
+    "bbox_source": "glb_position(472)"
+  },
+  {
+    "chome_code": "27204037001",
+    "glb": "lod2_hollow/chome/27204037001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204037001_lod2_hollow_index.json",
+    "bbox": [
+      135.4402320344,
+      34.8075799372,
+      135.4442408844,
+      34.810862589
+    ],
+    "size_bytes": 1412296,
+    "bbox_source": "glb_position(436)"
+  },
+  {
+    "chome_code": "27204037002",
+    "glb": "lod2_hollow/chome/27204037002_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204037002_lod2_hollow_index.json",
+    "bbox": [
+      135.4403507794,
+      34.8060117265,
+      135.4425583526,
+      34.8081420323
+    ],
+    "size_bytes": 928080,
+    "bbox_source": "glb_position(296)"
+  },
+  {
+    "chome_code": "27204039001",
+    "glb": "lod2_hollow/chome/27204039001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204039001_lod2_hollow_index.json",
+    "bbox": [
+      135.440194279,
+      34.8046756416,
+      135.442095181,
+      34.8068738171
+    ],
+    "size_bytes": 231772,
+    "bbox_source": "glb_position(66)"
+  },
+  {
+    "chome_code": "27204047001",
+    "glb": "lod2_hollow/chome/27204047001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204047001_lod2_hollow_index.json",
+    "bbox": [
+      135.4416115252,
+      34.8054242837,
+      135.4459729533,
+      34.8095942219
+    ],
+    "size_bytes": 2207324,
+    "bbox_source": "glb_position(766)"
+  },
+  {
+    "chome_code": "27204047002",
+    "glb": "lod2_hollow/chome/27204047002_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204047002_lod2_hollow_index.json",
+    "bbox": [
+      135.4446098482,
+      34.8070646952,
+      135.4476333423,
+      34.8104200538
+    ],
+    "size_bytes": 1119644,
+    "bbox_source": "glb_position(362)"
+  },
+  {
+    "chome_code": "27204047003",
+    "glb": "lod2_hollow/chome/27204047003_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204047003_lod2_hollow_index.json",
+    "bbox": [
+      135.4459440689,
+      34.8057724505,
+      135.4478018223,
+      34.8069244707
+    ],
+    "size_bytes": 132412,
+    "bbox_source": "glb_position(44)"
+  },
+  {
+    "chome_code": "27204051001",
+    "glb": "lod2_hollow/chome/27204051001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204051001_lod2_hollow_index.json",
+    "bbox": [
+      135.4428652191,
+      34.8101069838,
+      135.4443488028,
+      34.8107824371
+    ],
+    "size_bytes": 221820,
+    "bbox_source": "glb_position(68)"
+  },
+  {
+    "chome_code": "27204051003",
+    "glb": "lod2_hollow/chome/27204051003_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204051003_lod2_hollow_index.json",
+    "bbox": [
+      135.4441361148,
+      34.8098596819,
+      135.4451802453,
+      34.8107715789
+    ],
+    "size_bytes": 80740,
+    "bbox_source": "glb_position(26)"
+  },
+  {
+    "chome_code": "27204077001",
+    "glb": "lod2_hollow/chome/27204077001_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204077001_lod2_hollow_index.json",
+    "bbox": [
+      135.4319411956,
+      34.8591911657,
+      135.4356666448,
+      34.8652732869
+    ],
+    "size_bytes": 3803020,
+    "bbox_source": "glb_position(1494)"
+  },
+  {
+    "chome_code": "27204077002",
+    "glb": "lod2_hollow/chome/27204077002_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204077002_lod2_hollow_index.json",
+    "bbox": [
+      135.4351042947,
+      34.8623257166,
+      135.4414780103,
+      34.8654703292
+    ],
+    "size_bytes": 2334464,
+    "bbox_source": "glb_position(384)"
+  },
+  {
+    "chome_code": "27204077003",
+    "glb": "lod2_hollow/chome/27204077003_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204077003_lod2_hollow_index.json",
+    "bbox": [
+      135.4357585734,
+      34.8603752589,
+      135.4419117679,
+      34.8626692905
+    ],
+    "size_bytes": 2234960,
+    "bbox_source": "glb_position(872)"
+  },
+  {
+    "chome_code": "27204077004",
+    "glb": "lod2_hollow/chome/27204077004_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204077004_lod2_hollow_index.json",
+    "bbox": [
+      135.4355741169,
+      34.8584786305,
+      135.4413958302,
+      34.8606232167
+    ],
+    "size_bytes": 1820300,
+    "bbox_source": "glb_position(722)"
+  },
+  {
+    "chome_code": "27204077005",
+    "glb": "lod2_hollow/chome/27204077005_lod2_hollow.glb",
+    "index": "lod2_hollow/chome/27204077005_lod2_hollow_index.json",
+    "bbox": [
+      135.4364304042,
+      34.8556259545,
+      135.4402358171,
+      34.8589056903
+    ],
+    "size_bytes": 835776,
+    "bbox_source": "glb_position(332)"
+  }
+]

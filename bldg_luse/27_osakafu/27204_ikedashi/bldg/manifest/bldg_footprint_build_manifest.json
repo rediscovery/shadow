@@ -1,0 +1,12 @@
+{
+  "city_code": "27204",
+  "city_slug": "ikedashi",
+  "source": "PLATEAU bldg",
+  "output": "bldg_footprint.pmtiles",
+  "build_type": "footprint_height_vector",
+  "tile_format": "pmtiles",
+  "minzoom": 14,
+  "maxzoom": 17,
+  "feature_count": 0,
+  "created_at": ""
+}

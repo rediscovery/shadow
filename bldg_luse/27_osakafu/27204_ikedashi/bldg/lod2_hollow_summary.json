@@ -1,0 +1,25 @@
+{
+  "entry_count": 30,
+  "total_size_bytes": 27666928,
+  "total_size_mb": 26.385,
+  "bbox": [
+    135.4233243832,
+    34.8046756416,
+    135.4478018223,
+    34.8654703292
+  ],
+  "bbox_source_counts": {
+    "index": 0,
+    "glb_position": 30,
+    "fallback_city_bbox": 0
+  },
+  "shared_origin": {
+    "lon": 135.412500000175,
+    "lat": 34.783333333767,
+    "m_per_deg_lon": 91260.0,
+    "m_per_deg_lat": 110937.503813476,
+    "axis": "X=east, Y=up, Z=-north"
+  },
+  "output": "C:/Users/osawa/Desktop/petiteau2_catgpt/bldg_luse/27_osakafu/27204_ikedashi/bldg/lod2_hollow_chome_index.json",
+  "warnings": []
+}

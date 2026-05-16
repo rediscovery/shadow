@@ -1,0 +1,1298 @@
+[
+  {
+    "id": "272040010",
+    "name": "伏尾町",
+    "footprint": "footprint/272040010_bldg_footprint.geojson",
+    "metadata": "metadata/272040010_bldg_metadata.json",
+    "bbox": [
+      135.4332842,
+      34.8523418,
+      135.4593348,
+      34.8744783
+    ],
+    "count": 676,
+    "lod2_count": 14,
+    "height_min": 2.0,
+    "height_max": 51.5
+  },
+  {
+    "id": "272040020",
+    "name": "吉田町",
+    "footprint": "footprint/272040020_bldg_footprint.geojson",
+    "metadata": "metadata/272040020_bldg_metadata.json",
+    "bbox": [
+      135.4301916,
+      34.8511809,
+      135.4397254,
+      34.8587266
+    ],
+    "count": 349,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 31.9
+  },
+  {
+    "id": "272040030",
+    "name": "東山町",
+    "footprint": "footprint/272040030_bldg_footprint.geojson",
+    "metadata": "metadata/272040030_bldg_metadata.json",
+    "bbox": [
+      135.4298169,
+      34.8394936,
+      135.4509372,
+      34.852813
+    ],
+    "count": 501,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 47.34
+  },
+  {
+    "id": "272040040",
+    "name": "中川原町",
+    "footprint": "footprint/272040040_bldg_footprint.geojson",
+    "metadata": "metadata/272040040_bldg_metadata.json",
+    "bbox": [
+      135.4265792,
+      34.8430986,
+      135.4339455,
+      34.8489965
+    ],
+    "count": 337,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.3
+  },
+  {
+    "id": "272040050",
+    "name": "古江町",
+    "footprint": "footprint/272040050_bldg_footprint.geojson",
+    "metadata": "metadata/272040050_bldg_metadata.json",
+    "bbox": [
+      135.4173743,
+      34.8407813,
+      135.4318636,
+      34.855337
+    ],
+    "count": 1061,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 24.7
+  },
+  {
+    "id": "272040060",
+    "name": "木部町",
+    "footprint": "footprint/272040060_bldg_footprint.geojson",
+    "metadata": "metadata/272040060_bldg_metadata.json",
+    "bbox": [
+      135.4236135,
+      34.8315883,
+      135.431361,
+      34.8446007
+    ],
+    "count": 692,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 35.12
+  },
+  {
+    "id": "272040070",
+    "name": "新町",
+    "footprint": "footprint/272040070_bldg_footprint.geojson",
+    "metadata": "metadata/272040070_bldg_metadata.json",
+    "bbox": [
+      135.4233211,
+      34.8261869,
+      135.4253166,
+      34.8326441
+    ],
+    "count": 200,
+    "lod2_count": 84,
+    "height_min": 2.0,
+    "height_max": 29.8
+  },
+  {
+    "id": "27204008001",
+    "name": "綾羽一丁目",
+    "footprint": "footprint/27204008001_bldg_footprint.geojson",
+    "metadata": "metadata/27204008001_bldg_metadata.json",
+    "bbox": [
+      135.4248485,
+      34.825624,
+      135.427092,
+      34.8270928
+    ],
+    "count": 106,
+    "lod2_count": 106,
+    "height_min": 2.8,
+    "height_max": 19.5
+  },
+  {
+    "id": "27204008002",
+    "name": "綾羽二丁目",
+    "footprint": "footprint/27204008002_bldg_footprint.geojson",
+    "metadata": "metadata/27204008002_bldg_metadata.json",
+    "bbox": [
+      135.4248154,
+      34.8271593,
+      135.4315671,
+      34.8340989
+    ],
+    "count": 299,
+    "lod2_count": 126,
+    "height_min": 2.3,
+    "height_max": 23.0
+  },
+  {
+    "id": "272040100",
+    "name": "栄本町",
+    "footprint": "footprint/272040100_bldg_footprint.geojson",
+    "metadata": "metadata/272040100_bldg_metadata.json",
+    "bbox": [
+      135.4242905,
+      34.8238863,
+      135.4289885,
+      34.826376
+    ],
+    "count": 250,
+    "lod2_count": 220,
+    "height_min": 2.1,
+    "height_max": 44.7
+  },
+  {
+    "id": "272040110",
+    "name": "城山町",
+    "footprint": "footprint/272040110_bldg_footprint.geojson",
+    "metadata": "metadata/272040110_bldg_metadata.json",
+    "bbox": [
+      135.4266964,
+      34.8254729,
+      135.4297298,
+      34.828148
+    ],
+    "count": 185,
+    "lod2_count": 36,
+    "height_min": 2.0,
+    "height_max": 16.6
+  },
+  {
+    "id": "272040120",
+    "name": "建石町",
+    "footprint": "footprint/272040120_bldg_footprint.geojson",
+    "metadata": "metadata/272040120_bldg_metadata.json",
+    "bbox": [
+      135.4281439,
+      34.8229963,
+      135.4321542,
+      34.8284842
+    ],
+    "count": 422,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.2
+  },
+  {
+    "id": "27204013001",
+    "name": "上池田一丁目",
+    "footprint": "footprint/27204013001_bldg_footprint.geojson",
+    "metadata": "metadata/27204013001_bldg_metadata.json",
+    "bbox": [
+      135.430321,
+      34.8221749,
+      135.4334382,
+      34.8264005
+    ],
+    "count": 436,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 18.0
+  },
+  {
+    "id": "27204013002",
+    "name": "上池田二丁目",
+    "footprint": "footprint/27204013002_bldg_footprint.geojson",
+    "metadata": "metadata/27204013002_bldg_metadata.json",
+    "bbox": [
+      135.431779,
+      34.8207725,
+      135.4368267,
+      34.8233152
+    ],
+    "count": 232,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 21.9
+  },
+  {
+    "id": "27204015001",
+    "name": "城南一丁目",
+    "footprint": "footprint/27204015001_bldg_footprint.geojson",
+    "metadata": "metadata/27204015001_bldg_metadata.json",
+    "bbox": [
+      135.4281646,
+      34.8190979,
+      135.4316103,
+      34.8221057
+    ],
+    "count": 335,
+    "lod2_count": 29,
+    "height_min": 2.0,
+    "height_max": 36.0
+  },
+  {
+    "id": "27204015002",
+    "name": "城南二丁目",
+    "footprint": "footprint/27204015002_bldg_footprint.geojson",
+    "metadata": "metadata/27204015002_bldg_metadata.json",
+    "bbox": [
+      135.4280447,
+      34.8177883,
+      135.4314726,
+      34.8208644
+    ],
+    "count": 113,
+    "lod2_count": 28,
+    "height_min": 2.0,
+    "height_max": 34.3
+  },
+  {
+    "id": "27204015003",
+    "name": "城南三丁目",
+    "footprint": "footprint/27204015003_bldg_footprint.geojson",
+    "metadata": "metadata/27204015003_bldg_metadata.json",
+    "bbox": [
+      135.43172,
+      34.816303,
+      135.4349419,
+      34.8216362
+    ],
+    "count": 357,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 47.8
+  },
+  {
+    "id": "272040180",
+    "name": "大和町",
+    "footprint": "footprint/272040180_bldg_footprint.geojson",
+    "metadata": "metadata/272040180_bldg_metadata.json",
+    "bbox": [
+      135.4268339,
+      34.8222222,
+      135.4302671,
+      34.8245694
+    ],
+    "count": 151,
+    "lod2_count": 92,
+    "height_min": 2.2,
+    "height_max": 20.3
+  },
+  {
+    "id": "272040190",
+    "name": "菅原町",
+    "footprint": "footprint/272040190_bldg_footprint.geojson",
+    "metadata": "metadata/272040190_bldg_metadata.json",
+    "bbox": [
+      135.425955,
+      34.8202084,
+      135.427964,
+      34.8232007
+    ],
+    "count": 134,
+    "lod2_count": 134,
+    "height_min": 3.0,
+    "height_max": 41.0
+  },
+  {
+    "id": "272040200",
+    "name": "栄町",
+    "footprint": "footprint/272040200_bldg_footprint.geojson",
+    "metadata": "metadata/272040200_bldg_metadata.json",
+    "bbox": [
+      135.4241641,
+      34.8213314,
+      135.4266778,
+      34.8241054
+    ],
+    "count": 133,
+    "lod2_count": 133,
+    "height_min": 3.0,
+    "height_max": 42.2
+  },
+  {
+    "id": "272040210",
+    "name": "槻木町",
+    "footprint": "footprint/272040210_bldg_footprint.geojson",
+    "metadata": "metadata/272040210_bldg_metadata.json",
+    "bbox": [
+      135.4213616,
+      34.8230159,
+      135.4249247,
+      34.825774
+    ],
+    "count": 178,
+    "lod2_count": 59,
+    "height_min": 2.0,
+    "height_max": 41.7
+  },
+  {
+    "id": "272040220",
+    "name": "西本町",
+    "footprint": "footprint/272040220_bldg_footprint.geojson",
+    "metadata": "metadata/272040220_bldg_metadata.json",
+    "bbox": [
+      135.4220536,
+      34.8251157,
+      135.4245671,
+      34.8277326
+    ],
+    "count": 126,
+    "lod2_count": 34,
+    "height_min": 2.0,
+    "height_max": 23.5
+  },
+  {
+    "id": "272040230",
+    "name": "室町",
+    "footprint": "footprint/272040230_bldg_footprint.geojson",
+    "metadata": "metadata/272040230_bldg_metadata.json",
+    "bbox": [
+      135.4196455,
+      34.8202224,
+      135.424679,
+      34.8244503
+    ],
+    "count": 803,
+    "lod2_count": 23,
+    "height_min": 2.0,
+    "height_max": 34.0
+  },
+  {
+    "id": "27204024001",
+    "name": "桃園一丁目",
+    "footprint": "footprint/27204024001_bldg_footprint.geojson",
+    "metadata": "metadata/27204024001_bldg_metadata.json",
+    "bbox": [
+      135.4173138,
+      34.8188347,
+      135.4218319,
+      34.8230817
+    ],
+    "count": 565,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 18.4
+  },
+  {
+    "id": "27204024002",
+    "name": "桃園二丁目",
+    "footprint": "footprint/27204024002_bldg_footprint.geojson",
+    "metadata": "metadata/27204024002_bldg_metadata.json",
+    "bbox": [
+      135.4169267,
+      34.8147906,
+      135.4217277,
+      34.8192701
+    ],
+    "count": 404,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 30.7
+  },
+  {
+    "id": "272040260",
+    "name": "姫室町",
+    "footprint": "footprint/272040260_bldg_footprint.geojson",
+    "metadata": "metadata/272040260_bldg_metadata.json",
+    "bbox": [
+      135.4218223,
+      34.8156094,
+      135.4243226,
+      34.8202296
+    ],
+    "count": 626,
+    "lod2_count": 8,
+    "height_min": 2.0,
+    "height_max": 27.5
+  },
+  {
+    "id": "272040270",
+    "name": "呉服町",
+    "footprint": "footprint/272040270_bldg_footprint.geojson",
+    "metadata": "metadata/272040270_bldg_metadata.json",
+    "bbox": [
+      135.4242641,
+      34.8153071,
+      135.4258904,
+      34.8219324
+    ],
+    "count": 317,
+    "lod2_count": 157,
+    "height_min": 2.0,
+    "height_max": 39.9
+  },
+  {
+    "id": "272040280",
+    "name": "満寿美町",
+    "footprint": "footprint/272040280_bldg_footprint.geojson",
+    "metadata": "metadata/272040280_bldg_metadata.json",
+    "bbox": [
+      135.4254794,
+      34.8152075,
+      135.4291564,
+      34.821132
+    ],
+    "count": 738,
+    "lod2_count": 236,
+    "height_min": 2.0,
+    "height_max": 35.2
+  },
+  {
+    "id": "272040290",
+    "name": "宇保町",
+    "footprint": "footprint/272040290_bldg_footprint.geojson",
+    "metadata": "metadata/272040290_bldg_metadata.json",
+    "bbox": [
+      135.4275576,
+      34.8142823,
+      135.431461,
+      34.8188836
+    ],
+    "count": 927,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 26.73
+  },
+  {
+    "id": "27204030001",
+    "name": "神田一丁目",
+    "footprint": "footprint/27204030001_bldg_footprint.geojson",
+    "metadata": "metadata/27204030001_bldg_metadata.json",
+    "bbox": [
+      135.4240941,
+      34.8110067,
+      135.4314112,
+      34.8153769
+    ],
+    "count": 1636,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 25.4
+  },
+  {
+    "id": "27204030002",
+    "name": "神田二丁目",
+    "footprint": "footprint/27204030002_bldg_footprint.geojson",
+    "metadata": "metadata/27204030002_bldg_metadata.json",
+    "bbox": [
+      135.4237273,
+      34.80839,
+      135.4313048,
+      34.8131248
+    ],
+    "count": 961,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.2
+  },
+  {
+    "id": "27204030003",
+    "name": "神田三丁目",
+    "footprint": "footprint/27204030003_bldg_footprint.geojson",
+    "metadata": "metadata/27204030003_bldg_metadata.json",
+    "bbox": [
+      135.422353,
+      34.805296,
+      135.4311911,
+      34.8089189
+    ],
+    "count": 986,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 17.8
+  },
+  {
+    "id": "27204030004",
+    "name": "神田四丁目",
+    "footprint": "footprint/27204030004_bldg_footprint.geojson",
+    "metadata": "metadata/27204030004_bldg_metadata.json",
+    "bbox": [
+      135.4180599,
+      34.8087948,
+      135.4241348,
+      34.81592
+    ],
+    "count": 1590,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 31.1
+  },
+  {
+    "id": "272040340",
+    "name": "ダイハツ町",
+    "footprint": "footprint/272040340_bldg_footprint.geojson",
+    "metadata": "metadata/272040340_bldg_metadata.json",
+    "bbox": [
+      135.4240451,
+      34.8015938,
+      135.4310589,
+      34.8065363
+    ],
+    "count": 491,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 35.4
+  },
+  {
+    "id": "27204035001",
+    "name": "八王寺一丁目",
+    "footprint": "footprint/27204035001_bldg_footprint.geojson",
+    "metadata": "metadata/27204035001_bldg_metadata.json",
+    "bbox": [
+      135.4316984,
+      34.8131187,
+      135.4350463,
+      34.8172291
+    ],
+    "count": 398,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 30.1
+  },
+  {
+    "id": "27204035002",
+    "name": "八王寺二丁目",
+    "footprint": "footprint/27204035002_bldg_footprint.geojson",
+    "metadata": "metadata/27204035002_bldg_metadata.json",
+    "bbox": [
+      135.4313229,
+      34.8083935,
+      135.4349553,
+      34.8131583
+    ],
+    "count": 205,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 25.81
+  },
+  {
+    "id": "27204037001",
+    "name": "天神一丁目",
+    "footprint": "footprint/27204037001_bldg_footprint.geojson",
+    "metadata": "metadata/27204037001_bldg_metadata.json",
+    "bbox": [
+      135.4384761,
+      34.807499,
+      135.4441824,
+      34.8108607
+    ],
+    "count": 436,
+    "lod2_count": 218,
+    "height_min": 2.0,
+    "height_max": 24.5
+  },
+  {
+    "id": "27204037002",
+    "name": "天神二丁目",
+    "footprint": "footprint/27204037002_bldg_footprint.geojson",
+    "metadata": "metadata/27204037002_bldg_metadata.json",
+    "bbox": [
+      135.4380524,
+      34.8049842,
+      135.4424913,
+      34.8080569
+    ],
+    "count": 500,
+    "lod2_count": 148,
+    "height_min": 2.0,
+    "height_max": 20.6
+  },
+  {
+    "id": "27204039001",
+    "name": "住吉一丁目",
+    "footprint": "footprint/27204039001_bldg_footprint.geojson",
+    "metadata": "metadata/27204039001_bldg_metadata.json",
+    "bbox": [
+      135.4350758,
+      34.8021096,
+      135.4427717,
+      34.806793
+    ],
+    "count": 906,
+    "lod2_count": 33,
+    "height_min": 2.0,
+    "height_max": 32.29
+  },
+  {
+    "id": "27204039002",
+    "name": "住吉二丁目",
+    "footprint": "footprint/27204039002_bldg_footprint.geojson",
+    "metadata": "metadata/27204039002_bldg_metadata.json",
+    "bbox": [
+      135.4372064,
+      34.797876,
+      135.4432697,
+      34.8025966
+    ],
+    "count": 717,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 34.1
+  },
+  {
+    "id": "27204041001",
+    "name": "空港一丁目",
+    "footprint": "footprint/27204041001_bldg_footprint.geojson",
+    "metadata": "metadata/27204041001_bldg_metadata.json",
+    "bbox": [
+      135.4394256,
+      34.7940723,
+      135.4437485,
+      34.7986741
+    ],
+    "count": 514,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 35.6
+  },
+  {
+    "id": "27204041002",
+    "name": "空港二丁目",
+    "footprint": "footprint/27204041002_bldg_footprint.geojson",
+    "metadata": "metadata/27204041002_bldg_metadata.json",
+    "bbox": [
+      135.4344488,
+      34.7909529,
+      135.4416286,
+      34.7984488
+    ],
+    "count": 116,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 38.6
+  },
+  {
+    "id": "27204043001",
+    "name": "豊島南一丁目",
+    "footprint": "footprint/27204043001_bldg_footprint.geojson",
+    "metadata": "metadata/27204043001_bldg_metadata.json",
+    "bbox": [
+      135.4339599,
+      34.7977341,
+      135.4374407,
+      34.8031209
+    ],
+    "count": 553,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.5
+  },
+  {
+    "id": "27204043002",
+    "name": "豊島南二丁目",
+    "footprint": "footprint/27204043002_bldg_footprint.geojson",
+    "metadata": "metadata/27204043002_bldg_metadata.json",
+    "bbox": [
+      135.4286237,
+      34.7978854,
+      135.4347456,
+      34.8033515
+    ],
+    "count": 773,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 26.1
+  },
+  {
+    "id": "27204045001",
+    "name": "豊島北一丁目",
+    "footprint": "footprint/27204045001_bldg_footprint.geojson",
+    "metadata": "metadata/27204045001_bldg_metadata.json",
+    "bbox": [
+      135.4311911,
+      34.8010122,
+      135.4355917,
+      34.808227
+    ],
+    "count": 955,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 22.5
+  },
+  {
+    "id": "27204045002",
+    "name": "豊島北二丁目",
+    "footprint": "footprint/27204045002_bldg_footprint.geojson",
+    "metadata": "metadata/27204045002_bldg_metadata.json",
+    "bbox": [
+      135.4347461,
+      34.8035813,
+      135.4384023,
+      34.8081331
+    ],
+    "count": 933,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 16.6
+  },
+  {
+    "id": "27204047001",
+    "name": "石橋一丁目",
+    "footprint": "footprint/27204047001_bldg_footprint.geojson",
+    "metadata": "metadata/27204047001_bldg_metadata.json",
+    "bbox": [
+      135.4415579,
+      34.8034529,
+      135.4460154,
+      34.8095041
+    ],
+    "count": 697,
+    "lod2_count": 383,
+    "height_min": 2.0,
+    "height_max": 32.2
+  },
+  {
+    "id": "27204047002",
+    "name": "石橋二丁目",
+    "footprint": "footprint/27204047002_bldg_footprint.geojson",
+    "metadata": "metadata/27204047002_bldg_metadata.json",
+    "bbox": [
+      135.4445507,
+      34.8068822,
+      135.4497633,
+      34.8133712
+    ],
+    "count": 800,
+    "lod2_count": 181,
+    "height_min": 2.0,
+    "height_max": 27.0
+  },
+  {
+    "id": "27204047003",
+    "name": "石橋三丁目",
+    "footprint": "footprint/27204047003_bldg_footprint.geojson",
+    "metadata": "metadata/27204047003_bldg_metadata.json",
+    "bbox": [
+      135.4458825,
+      34.8028193,
+      135.4505404,
+      34.8069658
+    ],
+    "count": 445,
+    "lod2_count": 22,
+    "height_min": 2.1,
+    "height_max": 22.5
+  },
+  {
+    "id": "27204047004",
+    "name": "石橋四丁目",
+    "footprint": "footprint/27204047004_bldg_footprint.geojson",
+    "metadata": "metadata/27204047004_bldg_metadata.json",
+    "bbox": [
+      135.4422636,
+      34.7992943,
+      135.4483973,
+      34.8049541
+    ],
+    "count": 1284,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 38.37
+  },
+  {
+    "id": "27204051001",
+    "name": "井口堂一丁目",
+    "footprint": "footprint/27204051001_bldg_footprint.geojson",
+    "metadata": "metadata/27204051001_bldg_metadata.json",
+    "bbox": [
+      135.43979,
+      34.8100238,
+      135.445237,
+      34.8147675
+    ],
+    "count": 696,
+    "lod2_count": 34,
+    "height_min": 2.0,
+    "height_max": 37.51
+  },
+  {
+    "id": "27204051002",
+    "name": "井口堂二丁目",
+    "footprint": "footprint/27204051002_bldg_footprint.geojson",
+    "metadata": "metadata/27204051002_bldg_metadata.json",
+    "bbox": [
+      135.4421765,
+      34.8134896,
+      135.4460147,
+      34.8174875
+    ],
+    "count": 687,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.6
+  },
+  {
+    "id": "27204051003",
+    "name": "井口堂三丁目",
+    "footprint": "footprint/27204051003_bldg_footprint.geojson",
+    "metadata": "metadata/27204051003_bldg_metadata.json",
+    "bbox": [
+      135.4440779,
+      34.8097687,
+      135.4490591,
+      34.8164999
+    ],
+    "count": 552,
+    "lod2_count": 13,
+    "height_min": 2.0,
+    "height_max": 38.95
+  },
+  {
+    "id": "27204054001",
+    "name": "鉢塚一丁目",
+    "footprint": "footprint/27204054001_bldg_footprint.geojson",
+    "metadata": "metadata/27204054001_bldg_metadata.json",
+    "bbox": [
+      135.4337936,
+      34.8149636,
+      135.4373429,
+      34.8199966
+    ],
+    "count": 620,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 21.5
+  },
+  {
+    "id": "27204054002",
+    "name": "鉢塚二丁目",
+    "footprint": "footprint/27204054002_bldg_footprint.geojson",
+    "metadata": "metadata/27204054002_bldg_metadata.json",
+    "bbox": [
+      135.4358195,
+      34.8130911,
+      135.4390313,
+      34.819917
+    ],
+    "count": 660,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 23.5
+  },
+  {
+    "id": "27204054003",
+    "name": "鉢塚三丁目",
+    "footprint": "footprint/27204054003_bldg_footprint.geojson",
+    "metadata": "metadata/27204054003_bldg_metadata.json",
+    "bbox": [
+      135.4385322,
+      34.8126295,
+      135.4436761,
+      34.81846
+    ],
+    "count": 858,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 22.0
+  },
+  {
+    "id": "27204057001",
+    "name": "旭丘一丁目",
+    "footprint": "footprint/27204057001_bldg_footprint.geojson",
+    "metadata": "metadata/27204057001_bldg_metadata.json",
+    "bbox": [
+      135.4436294,
+      34.8171831,
+      135.4473621,
+      34.8233909
+    ],
+    "count": 722,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 17.3
+  },
+  {
+    "id": "27204057002",
+    "name": "旭丘二丁目",
+    "footprint": "footprint/27204057002_bldg_footprint.geojson",
+    "metadata": "metadata/27204057002_bldg_metadata.json",
+    "bbox": [
+      135.4462896,
+      34.8181795,
+      135.4518973,
+      34.8238072
+    ],
+    "count": 832,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 15.9
+  },
+  {
+    "id": "27204057003",
+    "name": "旭丘三丁目",
+    "footprint": "footprint/27204057003_bldg_footprint.geojson",
+    "metadata": "metadata/27204057003_bldg_metadata.json",
+    "bbox": [
+      135.4460175,
+      34.8156242,
+      135.4520754,
+      34.8206044
+    ],
+    "count": 933,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 12.9
+  },
+  {
+    "id": "27204060001",
+    "name": "荘園一丁目",
+    "footprint": "footprint/27204060001_bldg_footprint.geojson",
+    "metadata": "metadata/27204060001_bldg_metadata.json",
+    "bbox": [
+      135.4350953,
+      34.8110073,
+      135.4415217,
+      34.8148823
+    ],
+    "count": 786,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 15.9
+  },
+  {
+    "id": "27204060002",
+    "name": "荘園二丁目",
+    "footprint": "footprint/27204060002_bldg_footprint.geojson",
+    "metadata": "metadata/27204060002_bldg_metadata.json",
+    "bbox": [
+      135.434983,
+      34.8081309,
+      135.4385433,
+      34.8108642
+    ],
+    "count": 428,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 17.9
+  },
+  {
+    "id": "27204062001",
+    "name": "緑丘一丁目",
+    "footprint": "footprint/27204062001_bldg_footprint.geojson",
+    "metadata": "metadata/27204062001_bldg_metadata.json",
+    "bbox": [
+      135.435179,
+      34.8192621,
+      135.44255,
+      34.8227453
+    ],
+    "count": 416,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 23.6
+  },
+  {
+    "id": "27204062002",
+    "name": "緑丘二丁目",
+    "footprint": "footprint/27204062002_bldg_footprint.geojson",
+    "metadata": "metadata/27204062002_bldg_metadata.json",
+    "bbox": [
+      135.4393731,
+      34.8177132,
+      135.4455934,
+      34.8230861
+    ],
+    "count": 725,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 25.2
+  },
+  {
+    "id": "27204064001",
+    "name": "渋谷一丁目",
+    "footprint": "footprint/27204064001_bldg_footprint.geojson",
+    "metadata": "metadata/27204064001_bldg_metadata.json",
+    "bbox": [
+      135.4366394,
+      34.8227173,
+      135.4407389,
+      34.8272846
+    ],
+    "count": 632,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 19.1
+  },
+  {
+    "id": "27204064002",
+    "name": "渋谷二丁目",
+    "footprint": "footprint/27204064002_bldg_footprint.geojson",
+    "metadata": "metadata/27204064002_bldg_metadata.json",
+    "bbox": [
+      135.4402857,
+      34.8228253,
+      135.4432292,
+      34.8258822
+    ],
+    "count": 360,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 14.8
+  },
+  {
+    "id": "27204064003",
+    "name": "渋谷三丁目",
+    "footprint": "footprint/27204064003_bldg_footprint.geojson",
+    "metadata": "metadata/27204064003_bldg_metadata.json",
+    "bbox": [
+      135.4402779,
+      34.8254842,
+      135.4439668,
+      34.8299484
+    ],
+    "count": 671,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 16.2
+  },
+  {
+    "id": "27204067001",
+    "name": "五月丘一丁目",
+    "footprint": "footprint/27204067001_bldg_footprint.geojson",
+    "metadata": "metadata/27204067001_bldg_metadata.json",
+    "bbox": [
+      135.4323644,
+      34.822993,
+      135.4378158,
+      34.8266188
+    ],
+    "count": 372,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 17.3
+  },
+  {
+    "id": "27204067002",
+    "name": "五月丘二丁目",
+    "footprint": "footprint/27204067002_bldg_footprint.geojson",
+    "metadata": "metadata/27204067002_bldg_metadata.json",
+    "bbox": [
+      135.4311758,
+      34.8260282,
+      135.436803,
+      34.8295439
+    ],
+    "count": 362,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 21.0
+  },
+  {
+    "id": "27204067003",
+    "name": "五月丘三丁目",
+    "footprint": "footprint/27204067003_bldg_footprint.geojson",
+    "metadata": "metadata/27204067003_bldg_metadata.json",
+    "bbox": [
+      135.435266,
+      34.8244098,
+      135.4387779,
+      34.8295799
+    ],
+    "count": 436,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 20.4
+  },
+  {
+    "id": "27204067004",
+    "name": "五月丘四丁目",
+    "footprint": "footprint/27204067004_bldg_footprint.geojson",
+    "metadata": "metadata/27204067004_bldg_metadata.json",
+    "bbox": [
+      135.4384676,
+      34.8273947,
+      135.4421565,
+      34.8313455
+    ],
+    "count": 338,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 18.4
+  },
+  {
+    "id": "27204067005",
+    "name": "五月丘五丁目",
+    "footprint": "footprint/27204067005_bldg_footprint.geojson",
+    "metadata": "metadata/27204067005_bldg_metadata.json",
+    "bbox": [
+      135.4303592,
+      34.8286196,
+      135.4398809,
+      34.8436593
+    ],
+    "count": 298,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 23.2
+  },
+  {
+    "id": "27204072001",
+    "name": "畑一丁目",
+    "footprint": "footprint/27204072001_bldg_footprint.geojson",
+    "metadata": "metadata/27204072001_bldg_metadata.json",
+    "bbox": [
+      135.4431614,
+      34.8229834,
+      135.4487242,
+      34.8274758
+    ],
+    "count": 997,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 14.5
+  },
+  {
+    "id": "27204072002",
+    "name": "畑二丁目",
+    "footprint": "footprint/27204072002_bldg_footprint.geojson",
+    "metadata": "metadata/27204072002_bldg_metadata.json",
+    "bbox": [
+      135.4477387,
+      34.823588,
+      135.4511064,
+      34.8273827
+    ],
+    "count": 301,
+    "lod2_count": 0,
+    "height_min": 2.1,
+    "height_max": 18.3
+  },
+  {
+    "id": "27204072003",
+    "name": "畑三丁目",
+    "footprint": "footprint/27204072003_bldg_footprint.geojson",
+    "metadata": "metadata/27204072003_bldg_metadata.json",
+    "bbox": [
+      135.4393187,
+      34.8266349,
+      135.4595945,
+      34.8554739
+    ],
+    "count": 898,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 22.1
+  },
+  {
+    "id": "27204072004",
+    "name": "畑四丁目",
+    "footprint": "footprint/27204072004_bldg_footprint.geojson",
+    "metadata": "metadata/27204072004_bldg_metadata.json",
+    "bbox": [
+      135.4461565,
+      34.8265896,
+      135.4527847,
+      34.8319052
+    ],
+    "count": 852,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 28.1
+  },
+  {
+    "id": "27204072005",
+    "name": "畑五丁目",
+    "footprint": "footprint/27204072005_bldg_footprint.geojson",
+    "metadata": "metadata/27204072005_bldg_metadata.json",
+    "bbox": [
+      135.4501073,
+      34.8314682,
+      135.4537096,
+      34.8347244
+    ],
+    "count": 317,
+    "lod2_count": 0,
+    "height_min": 2.0,
+    "height_max": 25.0
+  },
+  {
+    "id": "27204077001",
+    "name": "伏尾台一丁目",
+    "footprint": "footprint/27204077001_bldg_footprint.geojson",
+    "metadata": "metadata/27204077001_bldg_metadata.json",
+    "bbox": [
+      135.4305711,
+      34.8582635,
+      135.435624,
+      34.8649921
+    ],
+    "count": 855,
+    "lod2_count": 747,
+    "height_min": 2.0,
+    "height_max": 12.8
+  },
+  {
+    "id": "27204077002",
+    "name": "伏尾台二丁目",
+    "footprint": "footprint/27204077002_bldg_footprint.geojson",
+    "metadata": "metadata/27204077002_bldg_metadata.json",
+    "bbox": [
+      135.4350627,
+      34.8620564,
+      135.4414246,
+      34.8651885
+    ],
+    "count": 192,
+    "lod2_count": 192,
+    "height_min": 2.9,
+    "height_max": 21.7
+  },
+  {
+    "id": "27204077003",
+    "name": "伏尾台三丁目",
+    "footprint": "footprint/27204077003_bldg_footprint.geojson",
+    "metadata": "metadata/27204077003_bldg_metadata.json",
+    "bbox": [
+      135.4357157,
+      34.8601109,
+      135.4418576,
+      34.8623971
+    ],
+    "count": 436,
+    "lod2_count": 436,
+    "height_min": 2.8,
+    "height_max": 30.3
+  },
+  {
+    "id": "27204077004",
+    "name": "伏尾台四丁目",
+    "footprint": "footprint/27204077004_bldg_footprint.geojson",
+    "metadata": "metadata/27204077004_bldg_metadata.json",
+    "bbox": [
+      135.4355316,
+      34.8582208,
+      135.4413426,
+      34.8603563
+    ],
+    "count": 361,
+    "lod2_count": 361,
+    "height_min": 2.9,
+    "height_max": 12.0
+  },
+  {
+    "id": "27204077005",
+    "name": "伏尾台五丁目",
+    "footprint": "footprint/27204077005_bldg_footprint.geojson",
+    "metadata": "metadata/27204077005_bldg_metadata.json",
+    "bbox": [
+      135.4363863,
+      34.8547902,
+      135.4401847,
+      34.8586464
+    ],
+    "count": 167,
+    "lod2_count": 166,
+    "height_min": 2.9,
+    "height_max": 38.1
+  }
+]

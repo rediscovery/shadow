@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petiteau² — PLATEAU World Runtime</title>
+
+  <!-- MapLibre GL JS -->
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+  <!-- PMTiles protocol for MapLibre -->
+  <script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/app.css">
+
+  <!--
+    Import map: tells the browser where to find "three" and Three.js addons.
+    GLTFLoader is used by glb-layer.js and glb-combined-layer.js.
+  -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":           "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+      "three/addons/":   "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Map fills the viewport -->
+  <div id="map"></div>
+
+  <!-- Side panel (populated by UiPanel) -->
+  <div id="petiteau-panel"></div>
+
+  <!-- Entry point (ES module) -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>

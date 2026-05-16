@@ -1,0 +1,234 @@
+{
+  "chome_code": "272040010",
+  "chome_name": "伏尾町",
+  "building_count": 14,
+  "vertex_count": 9303,
+  "face_count": 3101,
+  "glb": "lod2_hollow/chome/272040010_lod2_hollow.glb",
+  "buildings": [
+    {
+      "mi": 2578,
+      "building_id": "bldg_392da008-3dc7-4b7f-b07f-84b5b99cb687",
+      "nodes": [
+        "mi_2578_bldg_392da008-3dc7-4b7f-b07f-84b5b99cb687_RoofSurface",
+        "mi_2578_bldg_392da008-3dc7-4b7f-b07f-84b5b99cb687_WallSurface"
+      ],
+      "height": 3.1,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441169,
+      "representative_lat": 34.855879,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2588,
+      "building_id": "bldg_c965039b-8738-4f6a-bd77-8c59d15f0535",
+      "nodes": [
+        "mi_2588_bldg_c965039b-8738-4f6a-bd77-8c59d15f0535_RoofSurface",
+        "mi_2588_bldg_c965039b-8738-4f6a-bd77-8c59d15f0535_WallSurface"
+      ],
+      "height": 4.4,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441046,
+      "representative_lat": 34.855814,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2591,
+      "building_id": "bldg_04261804-d579-4ac7-92fa-f4f0e4b30cc9",
+      "nodes": [
+        "mi_2591_bldg_04261804-d579-4ac7-92fa-f4f0e4b30cc9_RoofSurface",
+        "mi_2591_bldg_04261804-d579-4ac7-92fa-f4f0e4b30cc9_WallSurface"
+      ],
+      "height": 4.2,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.442092,
+      "representative_lat": 34.857899,
+      "vertex_count": 102,
+      "face_count": 34,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2598,
+      "building_id": "bldg_f9d0921f-2872-46c8-89fe-a7d97f49e073",
+      "nodes": [
+        "mi_2598_bldg_f9d0921f-2872-46c8-89fe-a7d97f49e073_RoofSurface",
+        "mi_2598_bldg_f9d0921f-2872-46c8-89fe-a7d97f49e073_WallSurface"
+      ],
+      "height": 10.3,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.44115,
+      "representative_lat": 34.855905,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2626,
+      "building_id": "bldg_fe1c5fac-e7d2-4de6-ac18-9166d958806d",
+      "nodes": [
+        "mi_2626_bldg_fe1c5fac-e7d2-4de6-ac18-9166d958806d_RoofSurface",
+        "mi_2626_bldg_fe1c5fac-e7d2-4de6-ac18-9166d958806d_WallSurface"
+      ],
+      "height": 9.0,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.442195,
+      "representative_lat": 34.857903,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2646,
+      "building_id": "bldg_bf0416f9-0f62-44dd-b003-eafc649f3226",
+      "nodes": [
+        "mi_2646_bldg_bf0416f9-0f62-44dd-b003-eafc649f3226_RoofSurface",
+        "mi_2646_bldg_bf0416f9-0f62-44dd-b003-eafc649f3226_WallSurface"
+      ],
+      "height": 2.9,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441751,
+      "representative_lat": 34.857539,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2647,
+      "building_id": "bldg_6913f31b-e955-4270-a3a5-bd3d7b204a7d",
+      "nodes": [
+        "mi_2647_bldg_6913f31b-e955-4270-a3a5-bd3d7b204a7d_RoofSurface",
+        "mi_2647_bldg_6913f31b-e955-4270-a3a5-bd3d7b204a7d_WallSurface"
+      ],
+      "height": 4.4,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441187,
+      "representative_lat": 34.85585,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2653,
+      "building_id": "bldg_9394b8f1-7bfa-4053-87ef-c72def158f9b",
+      "nodes": [
+        "mi_2653_bldg_9394b8f1-7bfa-4053-87ef-c72def158f9b_RoofSurface",
+        "mi_2653_bldg_9394b8f1-7bfa-4053-87ef-c72def158f9b_WallSurface"
+      ],
+      "height": 3.0,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.442219,
+      "representative_lat": 34.856781,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2667,
+      "building_id": "bldg_5f7808db-cfb3-416c-a241-da044c6771c8",
+      "nodes": [
+        "mi_2667_bldg_5f7808db-cfb3-416c-a241-da044c6771c8_RoofSurface",
+        "mi_2667_bldg_5f7808db-cfb3-416c-a241-da044c6771c8_WallSurface"
+      ],
+      "height": 3.0,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441737,
+      "representative_lat": 34.857486,
+      "vertex_count": 42,
+      "face_count": 14,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2674,
+      "building_id": "bldg_eee44510-ac12-4a18-94c2-4c28a0806c5d",
+      "nodes": [
+        "mi_2674_bldg_eee44510-ac12-4a18-94c2-4c28a0806c5d_RoofSurface",
+        "mi_2674_bldg_eee44510-ac12-4a18-94c2-4c28a0806c5d_WallSurface"
+      ],
+      "height": 5.8,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.44112,
+      "representative_lat": 34.855859,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2681,
+      "building_id": "bldg_312b3a44-a7f9-4664-ba82-18c31ded7e7a",
+      "nodes": [
+        "mi_2681_bldg_312b3a44-a7f9-4664-ba82-18c31ded7e7a_RoofSurface",
+        "mi_2681_bldg_312b3a44-a7f9-4664-ba82-18c31ded7e7a_WallSurface"
+      ],
+      "height": 5.4,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441139,
+      "representative_lat": 34.855831,
+      "vertex_count": 30,
+      "face_count": 10,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2689,
+      "building_id": "bldg_413a9422-2468-4263-a05d-32f883a6185a",
+      "nodes": [
+        "mi_2689_bldg_413a9422-2468-4263-a05d-32f883a6185a_RoofSurface",
+        "mi_2689_bldg_413a9422-2468-4263-a05d-32f883a6185a_WallSurface"
+      ],
+      "height": 3.1,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.440891,
+      "representative_lat": 34.857125,
+      "vertex_count": 102,
+      "face_count": 34,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2713,
+      "building_id": "bldg_4b697da4-e71b-4b38-8971-b1617e5c5842",
+      "nodes": [
+        "mi_2713_bldg_4b697da4-e71b-4b38-8971-b1617e5c5842_RoofSurface",
+        "mi_2713_bldg_4b697da4-e71b-4b38-8971-b1617e5c5842_WallSurface"
+      ],
+      "height": 14.8,
+      "usage": "401",
+      "year_of_construction": 1972,
+      "representative_lon": 135.441769,
+      "representative_lat": 34.857306,
+      "vertex_count": 729,
+      "face_count": 243,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    },
+    {
+      "mi": 2721,
+      "building_id": "bldg_0eb4090f-9615-42fc-be63-9d90d7c88eb7",
+      "nodes": [
+        "mi_2721_bldg_0eb4090f-9615-42fc-be63-9d90d7c88eb7_RoofSurface",
+        "mi_2721_bldg_0eb4090f-9615-42fc-be63-9d90d7c88eb7_WallSurface"
+      ],
+      "height": 51.5,
+      "usage": null,
+      "year_of_construction": null,
+      "representative_lon": 135.441873,
+      "representative_lat": 34.856678,
+      "vertex_count": 8058,
+      "face_count": 2686,
+      "source_gml": "52352325_bldg_6697_op.gml"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "city_code": "27204",
+  "city_slug": "ikedashi",
+  "source": "PLATEAU tran",
+  "output": "27204_ikeda_tran_flat.glb",
+  "feature_count": 0,
+  "bbox": [135.4157663, 34.7917821, 135.4608735, 34.8779698],
+  "created_at": ""
+}

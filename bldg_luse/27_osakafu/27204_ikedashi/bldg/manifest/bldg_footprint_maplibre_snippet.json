@@ -1,0 +1,7 @@
+{
+  "source_id": "petiteau-bldg-footprint",
+  "url": "pmtiles://bldg_luse/27_osakafu/27204_ikedashi/bldg/footprint/bldg_footprint.pmtiles",
+  "source_layer": "bldg_footprint",
+  "minzoom": 14,
+  "maxzoom": 17
+}

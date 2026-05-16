@@ -1,0 +1,13 @@
+[
+  {
+    "pref_code": "27",
+    "pref_slug": "osakafu",
+    "city_code": "27204",
+    "city_slug": "ikedashi",
+    "name": "池田市",
+    "path": "27_osakafu/27204_ikedashi",
+    "bbox": [135.4157663, 34.7917821, 135.4608735, 34.8779698],
+    "tran_glb": "tran/27204_ikeda_tran_flat.glb",
+    "tran_metadata": "tran/27204_ikeda_tran_metadata.json"
+  }
+]
