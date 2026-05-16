@@ -16,6 +16,15 @@ import { Lod2BuildingHeightScan } from '../anim/lod2-building-height-scan.js';
 
 const IKEDA_SHARED_ORIGIN = [135.412500000175, 34.783333333767];
 
+// FPS ガード: この値を下回ると shadow / footprint mesh を強制 OFF にする。
+const MIN_SHADOW_FPS_THRESHOLD = 20;
+// shadow camera の最小・最大距離 (meters)。
+const SHADOW_CAM_MIN_D = 100;
+const SHADOW_CAM_MAX_D = 1200;
+// デフォルト建物高さ (m) / ExtrudeGeometry の最小奥行き (m)
+const DEFAULT_BUILDING_HEIGHT_M = 10;
+const MIN_EXTRUSION_DEPTH_M = 0.5;
+
 export class GlbCombinedLayer {
   constructor({ areaBase, sharedOrigin = IKEDA_SHARED_ORIGIN }) {
     this.id            = 'petiteau-lod2-hollow';
@@ -208,6 +217,25 @@ export class GlbCombinedLayer {
     if (!this._visible || !this.scene || !this.scene.children.length) return;
     if (this.map && this.map.getZoom() < this.minZoom) return;
     if (!this._transform) return;
+
+    // ── FPS monitoring ─────────────────────────────────────────
+    const now = performance.now();
+    const delta = now - (this._lastFrameTime || now);
+    this._lastFrameTime = now;
+    const instantFps = delta > 0 ? 1000 / delta : 60;
+
+    this._fpsHistory = this._fpsHistory ?? [];
+    this._fpsHistory.push(instantFps);
+    if (this._fpsHistory.length > 60) this._fpsHistory.shift();
+
+    const avgFps = this._fpsHistory.reduce((a, b) => a + b, 0) / this._fpsHistory.length;
+
+    if (avgFps < MIN_SHADOW_FPS_THRESHOLD && !this._fpsGuardTriggered && (this._shadowActive || this._footprintMeshGroup)) {
+      console.warn(`[GlbCombinedLayer] FPS dropped to ${avgFps.toFixed(1)}. Disabling shadow.`);
+      this._forceShadowOff();
+      this._fpsGuardTriggered = true;
+    }
+    // ───────────────────────────────────────────────────────────
 
     const matrix = args.projectionMatrix ?? args;
     const { translateX, translateY, translateZ, scale } = this._transform;
@@ -1523,6 +1551,363 @@ export class GlbCombinedLayer {
 
     obj.material.needsUpdate = true;
     obj.userData._petiteauMaterialReplaced = true;
+  }
+
+  // ── Footprint 3D mesh（shadow map 参加用） ─────────────────────
+
+  /**
+   * GeoJSON FeatureCollection を Three.js ExtrudeGeometry に変換して
+   * scene に追加する。既存 shadow map にそのまま参加できる。
+   */
+  setFootprintMeshes(featureCollection, {
+    color = 0xfafafa,
+    wallColor = 0xdde0f0,
+    opacity = 1.0,
+  } = {}) {
+    this._clearFootprintMeshes();
+
+    if (!this.scene || !this._transform) return;
+    if (!featureCollection?.features?.length) return;
+
+    // Reset FPS guard so the new mesh set can re-trigger if FPS drops.
+    this._fpsGuardTriggered = false;
+
+    const group = new THREE.Group();
+    group.name = 'petiteau-footprint-extruded';
+
+    for (const feature of featureCollection.features) {
+      const geom = feature.geometry;
+      if (!geom) continue;
+
+      const heightM = this._footprintHeightFromProps(feature.properties ?? {});
+      const polygons = geom.type === 'Polygon'
+        ? [geom.coordinates]
+        : geom.type === 'MultiPolygon'
+          ? geom.coordinates
+          : [];
+
+      for (const polygonCoords of polygons) {
+        const mesh = this._buildFootprintExtrudedMesh(
+          polygonCoords, heightM, color, wallColor, opacity,
+        );
+        if (mesh) group.add(mesh);
+      }
+    }
+
+    this._footprintMeshGroup = group;
+    this.scene.add(group);
+
+    this._updateShadowActivation();
+    this._fitShadowCameraToLoaded();
+
+    if (this.map) this.map.triggerRepaint();
+  }
+
+  /**
+   * `map-app.js` からの委譲経路。`setFootprintMeshes()` のラッパー。
+   */
+  showFootprintShadowMesh({ geometry, heightM, color, wallColor, opacity = 1.0 } = {}) {
+    if (!geometry) return false;
+
+    const fc = {
+      type: 'FeatureCollection',
+      features: [{
+        type: 'Feature',
+        geometry,
+        properties: heightM != null ? { height: heightM } : {},
+      }],
+    };
+
+    const resolveColor = (c, fallback) => {
+      if (typeof c === 'number') return c;
+      if (typeof c === 'string') return this._hexToThreeColor(c);
+      return fallback;
+    };
+
+    this.setFootprintMeshes(fc, {
+      color: resolveColor(color, 0xfafafa),
+      wallColor: resolveColor(wallColor, 0xdde0f0),
+      opacity,
+    });
+
+    return true;
+  }
+
+  clearFootprintMeshes() {
+    this._clearFootprintMeshes();
+    if (this.map) this.map.triggerRepaint();
+  }
+
+  _clearFootprintMeshes() {
+    if (!this._footprintMeshGroup) return;
+    this.scene?.remove(this._footprintMeshGroup);
+    this._disposeObject(this._footprintMeshGroup);
+    this._footprintMeshGroup = null;
+  }
+
+  /**
+   * 外部で生成した Three.js Group を scene に追加し、shadow map に参加させる。
+   * forceShadow=true のとき、zoom/mobile ガードに関わらず shadow map を一時有効化する。
+   */
+  addAnalysisShadowGroup(group, { forceShadow = false, sunAzimuthDeg, sunElevationDeg } = {}) {
+    if (!this.scene || !group) return;
+
+    if (sunAzimuthDeg !== undefined) this._sunAzimuth = Number(sunAzimuthDeg);
+    if (sunElevationDeg !== undefined) this._sunElevation = Number(sunElevationDeg);
+
+    if (sunAzimuthDeg !== undefined || sunElevationDeg !== undefined) {
+      this._updateLightPosition();
+    }
+
+    this.scene.add(group);
+
+    if (forceShadow && !this._shadowActive) {
+      this._shadowActive = true;
+
+      if (this.renderer) {
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.needsUpdate = true;
+      }
+
+      if (this._directionalLight) {
+        this._directionalLight.castShadow = true;
+      }
+    }
+
+    this._fitShadowCameraToLoaded();
+
+    if (this.map) this.map.triggerRepaint();
+  }
+
+  removeAnalysisShadowGroup(group) {
+    if (!this.scene || !group) return;
+    this.scene.remove(group);
+    this._disposeObject(group);
+    if (this.map) this.map.triggerRepaint();
+  }
+
+  /**
+   * 現在選択中の LOD2 建物に対して shadow map を一時強制有効化し、
+   * shadow camera をその建物に絞って再計算する。
+   */
+  startSelectedBuildingShadowAnalysis({ sunAzimuthDeg, sunElevationDeg } = {}) {
+    if (!this._selectedBuildingMeshes.length) {
+      console.warn('[GlbCombinedLayer] startSelectedBuildingShadowAnalysis: no selected meshes.');
+      return false;
+    }
+
+    // Reset FPS guard so the new analysis run can re-trigger if FPS drops.
+    this._fpsGuardTriggered = false;
+
+    if (sunAzimuthDeg !== undefined) this._sunAzimuth = Number(sunAzimuthDeg);
+    if (sunElevationDeg !== undefined) this._sunElevation = Number(sunElevationDeg);
+
+    if (sunAzimuthDeg !== undefined || sunElevationDeg !== undefined) {
+      this._updateLightPosition();
+    }
+
+    if (this.renderer) {
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.needsUpdate = true;
+    }
+
+    if (this._directionalLight) {
+      this._directionalLight.castShadow = true;
+    }
+
+    this._shadowActive = true;
+
+    for (const data of this._loaded.values()) {
+      data.group.traverse((obj) => {
+        if (!obj.isMesh) return;
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      });
+    }
+
+    this._fitShadowCameraToMeshes(this._selectedBuildingMeshes);
+
+    if (this.map) this.map.triggerRepaint();
+
+    return true;
+  }
+
+  /**
+   * 指定した mesh 群に shadow camera を絞って再計算する。
+   */
+  _fitShadowCameraToMeshes(meshes) {
+    if (!this._directionalLight?.shadow || !meshes?.length) return;
+
+    const box = new THREE.Box3();
+    let hasObject = false;
+
+    for (const mesh of meshes) {
+      if (!mesh?.isMesh) continue;
+      mesh.updateWorldMatrix(true, false);
+      const meshBox = new THREE.Box3().setFromObject(mesh);
+      if (meshBox.isEmpty()) continue;
+
+      if (!hasObject) {
+        box.copy(meshBox);
+        hasObject = true;
+      } else {
+        box.union(meshBox);
+      }
+    }
+
+    if (!hasObject || box.isEmpty()) {
+      this._fitShadowCameraToLoaded();
+      return;
+    }
+
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const radius = Math.max(size.x, size.y, size.z, 1) * 1.5;
+    const d = Math.max(SHADOW_CAM_MIN_D, Math.min(SHADOW_CAM_MAX_D, radius));
+
+    if (!this._directionalLight.target.parent) {
+      this.scene?.add(this._directionalLight.target);
+    }
+
+    this._directionalLight.target.position.copy(center);
+    this._directionalLight.target.updateMatrixWorld();
+
+    const cam = this._directionalLight.shadow.camera;
+    cam.left = -d;
+    cam.right = d;
+    cam.top = d;
+    cam.bottom = -d;
+    cam.near = 0.1;
+    cam.far = Math.max(400, d * 4);
+    cam.updateProjectionMatrix();
+    this._directionalLight.shadow.needsUpdate = true;
+  }
+
+  /**
+   * FPS ガード発動時に shadow map と footprint mesh を強制無効化する。
+   */
+  _forceShadowOff() {
+    this._shadowActive = false;
+
+    if (this.renderer) {
+      this.renderer.shadowMap.enabled = false;
+      this.renderer.shadowMap.needsUpdate = true;
+    }
+
+    if (this._directionalLight) this._directionalLight.castShadow = false;
+
+    this._clearFootprintMeshes();
+
+    for (const data of this._loaded.values()) {
+      data.group.traverse((obj) => {
+        if (!obj.isMesh) return;
+        obj.castShadow = false;
+        obj.receiveShadow = false;
+      });
+    }
+  }
+
+  /**
+   * GeoJSON polygon ring → THREE.Mesh（ExtrudeGeometry）
+   *
+   * 座標変換:
+   *   shape.x = scene.x = East meters from origin
+   *   shape.y = -scene.z = North meters（Mercator Y は南増加なので符号反転）
+   *   extrude along +Z → rotation.x = -PI/2 で scene +Y（Up）に立てる
+   */
+  _buildFootprintExtrudedMesh(polygonCoords, heightM, color, wallColor, opacity) {
+    if (!Array.isArray(polygonCoords) || !polygonCoords[0]?.length) return null;
+
+    const { translateX, translateY, scale } = this._transform;
+
+    const toShapeXY = ([lng, lat]) => {
+      const mc = maplibregl.MercatorCoordinate.fromLngLat(
+        [Number(lng), Number(lat)], 0,
+      );
+      return [
+        (mc.x - translateX) / scale,
+        -((mc.y - translateY) / scale),
+      ];
+    };
+
+    const outerRing = polygonCoords[0];
+    if (outerRing.length < 4) return null;
+
+    const shape = new THREE.Shape();
+    const [fx, fy] = toShapeXY(outerRing[0]);
+    shape.moveTo(fx, fy);
+    for (let i = 1; i < outerRing.length - 1; i++) {
+      const [x, y] = toShapeXY(outerRing[i]);
+      shape.lineTo(x, y);
+    }
+    shape.closePath();
+
+    for (let h = 1; h < polygonCoords.length; h++) {
+      const holeRing = polygonCoords[h];
+      if (!holeRing || holeRing.length < 4) continue;
+
+      const hole = new THREE.Path();
+      const [hx, hy] = toShapeXY(holeRing[0]);
+      hole.moveTo(hx, hy);
+      for (let i = 1; i < holeRing.length - 1; i++) {
+        const [x, y] = toShapeXY(holeRing[i]);
+        hole.lineTo(x, y);
+      }
+      hole.closePath();
+      shape.holes.push(hole);
+    }
+
+    const depth = Math.max(MIN_EXTRUSION_DEPTH_M, Number(heightM) || DEFAULT_BUILDING_HEIGHT_M);
+
+    const geometry = new THREE.ExtrudeGeometry(shape, {
+      depth,
+      bevelEnabled: false,
+    });
+    geometry.computeVertexNormals();
+
+    // ExtrudeGeometry: group 0 = side walls, group 1 = top cap, group 2 = bottom cap
+    const roofMat = new THREE.MeshStandardMaterial({
+      color: typeof color === 'number' ? color : this._hexToThreeColor(color),
+      roughness: 0.45,
+      metalness: 0.01,
+      transparent: opacity < 0.999,
+      opacity,
+      depthWrite: opacity >= 0.999,
+      side: THREE.FrontSide,
+    });
+
+    const wallMat = new THREE.MeshStandardMaterial({
+      color: typeof wallColor === 'number' ? wallColor : this._hexToThreeColor(wallColor),
+      roughness: 0.52,
+      metalness: 0.01,
+      transparent: opacity < 0.999,
+      opacity,
+      depthWrite: opacity >= 0.999,
+      side: THREE.FrontSide,
+    });
+
+    const mesh = new THREE.Mesh(geometry, [wallMat, roofMat, roofMat]);
+
+    // ExtrudeGeometry は +Z 方向に押し出す。rotation.x = -PI/2 で scene +Y（Up）方向になる。
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    return mesh;
+  }
+
+  _footprintHeightFromProps(props) {
+    const keys = [
+      'display_height', 'height', 'measuredHeight',
+      'measured_height', 'h', 'HEIGHT',
+    ];
+
+    for (const key of keys) {
+      const n = Number(props?.[key]);
+      if (Number.isFinite(n) && n > 0) return n;
+    }
+
+    return DEFAULT_BUILDING_HEIGHT_M;
   }
 
   _bboxIntersects(a, b) {
