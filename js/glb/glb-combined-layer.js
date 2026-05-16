@@ -1900,7 +1900,10 @@ export class GlbCombinedLayer {
       if (Number.isFinite(n) && n > 0) return n;
     }
 
-    return DEFAULT_BUILDING_HEIGHT_M;(a, b) {
+    return DEFAULT_BUILDING_HEIGHT_M;
+  }
+
+  _bboxIntersects(a, b) {
     return !(
       a[2] < b[0] ||
       b[2] < a[0] ||
