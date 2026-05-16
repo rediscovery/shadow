@@ -230,9 +230,10 @@ export class GlbCombinedLayer {
 
     const avgFps = this._fpsHistory.reduce((a, b) => a + b, 0) / this._fpsHistory.length;
 
-    if (avgFps < MIN_SHADOW_FPS_THRESHOLD && (this._shadowActive || this._footprintMeshGroup)) {
+    if (avgFps < MIN_SHADOW_FPS_THRESHOLD && !this._fpsGuardTriggered && (this._shadowActive || this._footprintMeshGroup)) {
       console.warn(`[GlbCombinedLayer] FPS dropped to ${avgFps.toFixed(1)}. Disabling shadow.`);
       this._forceShadowOff();
+      this._fpsGuardTriggered = true;
     }
     // ───────────────────────────────────────────────────────────
 
@@ -1568,6 +1569,9 @@ export class GlbCombinedLayer {
     if (!this.scene || !this._transform) return;
     if (!featureCollection?.features?.length) return;
 
+    // Reset FPS guard so the new mesh set can re-trigger if FPS drops.
+    this._fpsGuardTriggered = false;
+
     const group = new THREE.Group();
     group.name = 'petiteau-footprint-extruded';
 
@@ -1691,6 +1695,9 @@ export class GlbCombinedLayer {
       console.warn('[GlbCombinedLayer] startSelectedBuildingShadowAnalysis: no selected meshes.');
       return false;
     }
+
+    // Reset FPS guard so the new analysis run can re-trigger if FPS drops.
+    this._fpsGuardTriggered = false;
 
     if (sunAzimuthDeg !== undefined) this._sunAzimuth = Number(sunAzimuthDeg);
     if (sunElevationDeg !== undefined) this._sunElevation = Number(sunElevationDeg);
