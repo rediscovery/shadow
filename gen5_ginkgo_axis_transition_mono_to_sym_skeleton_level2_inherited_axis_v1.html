@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>イチョウ 3D — 継承軸・競合軸モデル</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a12;color:#e8e4d8;font-family:'Helvetica Neue',sans-serif;overflow:hidden;}
+canvas{display:block;width:100vw;height:100vh;}
+#ui{position:fixed;top:0;right:0;width:280px;height:100vh;background:rgba(10,10,18,0.88);border-left:1px solid #2a2a3a;padding:16px;overflow-y:auto;font-size:12px;}
+#ui h2{font-size:13px;letter-spacing:.08em;color:#b8b0a0;margin-bottom:12px;border-bottom:1px solid #2a2a3a;padding-bottom:8px;}
+.kicker{font-size:10px;color:#6a6a7a;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;}
+.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.row label{color:#a0a0b0;font-size:11px;}
+.row span{color:#e0d8c8;font-size:11px;min-width:36px;text-align:right;}
+input[type=range]{width:100%;accent-color:#8a7a5a;margin-top:4px;}
+select{background:#181820;color:#e0d8c8;border:1px solid #3a3a4a;border-radius:3px;padding:3px 6px;font-size:11px;width:100%;}
+button{background:#2a2a3a;color:#c0b898;border:1px solid #4a4a5a;border-radius:3px;padding:5px 10px;cursor:pointer;font-size:11px;width:100%;margin-top:6px;}
+button:hover{background:#3a3a4a;}
+.sep{border-top:1px solid #2a2a3a;margin:12px 0;}
+.group{margin-bottom:10px;}
+.group-label{color:#7a7a8a;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <h2>イチョウ 3D</h2>
+  <div class="kicker">第一類・継承軸接続 / Native WebGL</div>
+
+  <div class="group">
+    <div class="group-label">幹・軸</div>
+    <div class="row"><label>幹高さ</label><span id="v-trunkH">8.0</span></div>
+    <input type="range" id="s-trunkH" min="3" max="16" step="0.1" value="8">
+
+    <div class="row"><label>基部半径</label><span id="v-baseRadius">0.18</span></div>
+    <input type="range" id="s-baseRadius" min="0.05" max="0.4" step="0.005" value="0.18">
+
+    <div class="row"><label>カーブ強度</label><span id="v-trunkCurveFlow">1.0</span></div>
+    <input type="range" id="s-trunkCurveFlow" min="0" max="3" step="0.05" value="1.0">
+
+    <div class="row"><label>後継軸数 (2〜3)</label><span id="v-axisSuccessorCount">2</span></div>
+    <input type="range" id="s-axisSuccessorCount" min="2" max="3" step="1" value="2">
+
+    <div class="row"><label>分岐高さ比</label><span id="v-splitRatio">0.65</span></div>
+    <input type="range" id="s-splitRatio" min="0.4" max="0.9" step="0.01" value="0.65">
+  </div>
+
+  <div class="sep"></div>
+  <div class="group">
+    <div class="group-label">枝葉</div>
+    <div class="row"><label>主枝数</label><span id="v-mainBranchCount">6</span></div>
+    <input type="range" id="s-mainBranchCount" min="2" max="12" step="1" value="6">
+
+    <div class="row"><label>葉密度</label><span id="v-leafDensity">1.0</span></div>
+    <input type="range" id="s-leafDensity" min="0.1" max="3" step="0.05" value="1.0">
+
+    <div class="row"><label>葉サイズ</label><span id="v-leafSize">0.08</span></div>
+    <input type="range" id="s-leafSize" min="0.02" max="0.25" step="0.005" value="0.08">
+  </div>
+
+  <div class="sep"></div>
+  <div class="group">
+    <div class="group-label">シード・表示</div>
+    <div class="row"><label>乱数シード</label><span id="v-seed">42</span></div>
+    <input type="range" id="s-seed" min="1" max="999" step="1" value="42">
+
+    <div class="row"><label>パイプ表示</label>
+      <select id="sel-showPipe">
+        <option value="trunk">幹のみ</option>
+        <option value="both" selected>幹＋枝</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+  <button id="btn-regen">再生成 (Rebuild)</button>
+  <button id="btn-save">JSON保存</button>
+  <button id="btn-load">JSON読込</button>
+  <input type="file" id="inp-load" accept=".json" style="display:none">
+</div>
+
+<script>
+// Level 2: 継承軸・競合軸モデル。growCoLeaderAxis廃止。親幹最終リングを断面共有で継承軸・競合軸へ渡す。
+'use strict';
+
+// ─── Constants ───────────────────────────────────────────────────────────────
+const PIPE_SIDES = 6;
+const TRUNK_SEGMENTS = 40;
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let seedVal = 42;
+let rngState = seedVal;
+function seedRng(s){ rngState = (s|0)||1; }
+function rng(){
+  rngState ^= rngState << 13;
+  rngState ^= rngState >> 17;
+  rngState ^= rngState << 5;
+  return ((rngState >>> 0) / 0xFFFFFFFF);
+}
+function rr(a,b){ return a + rng()*(b-a); }
+
+let trunkH = 8.0;
+let baseRadius = 0.18;
+let trunkCurveFlow = 1.0;
+let splitRatio = 0.65;
+let mainBranchCount = 6;
+let leafDensity = 1.0;
+let leafSize = 0.08;
+let showPipe = 'both';
+
+const skeletonState = {
+  axisSuccessorCount: 2,
+  engineRevision: 'axis-transition-inherited-axis-level2-v1',
+  connectedFeature: 'inheritedCompetitorAxis',
+};
+
+// ─── Math utilities ──────────────────────────────────────────────────────────
+function len3(a){ return Math.sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]); }
+function n3(a){ const l=len3(a)||1e-10; return [a[0]/l,a[1]/l,a[2]/l]; }
+function add3(a,b){ return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]; }
+function sub3(a,b){ return [a[0]-b[0],a[1]-b[1],a[2]-b[2]]; }
+function sc3(a,s){ return [a[0]*s,a[1]*s,a[2]*s]; }
+function dot3(a,b){ return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
+function cross3(a,b){
+  return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+}
+function lerp(a,b,t){ return a*(1-t)+b*t; }
+function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+
+// ─── Geometry buffers ────────────────────────────────────────────────────────
+const pipePos  = { trunk:[], branch:[] };
+const pipeAge  = { trunk:[], branch:[] };
+const pipeSegCount = { trunk:0, branch:0 };
+const strokePos = { trunk:[], branch:[] };
+const strokeAge = { trunk:[], branch:[] };
+const foliagePos = [];
+const foliageNrm = [];
+const foliageClr = [];
+
+function clearBuffers(){
+  for(const k of ['trunk','branch']){
+    pipePos[k].length=0; pipeAge[k].length=0; pipeSegCount[k]=0;
+    strokePos[k].length=0; strokeAge[k].length=0;
+  }
+  foliagePos.length=0; foliageNrm.length=0; foliageClr.length=0;
+}
+
+// ─── Geometry helpers ────────────────────────────────────────────────────────
+function pushStroke(x0,y0,z0,x1,y1,z1,cat,age){
+  strokePos[cat].push(x0,y0,z0, x1,y1,z1);
+  strokeAge[cat].push(age,age);
+}
+
+function pushPipe(x0,y0,z0,x1,y1,z1,r0,r1,cat,age){
+  const dir=n3(sub3([x1,y1,z1],[x0,y0,z0]));
+  let u=n3(cross3(dir, Math.abs(dir[1])<0.92?[0,1,0]:[1,0,0]));
+  let v=n3(cross3(dir,u));
+  const c0=[x0,y0,z0], c1=[x1,y1,z1];
+  const dst=pipePos[cat], ages=pipeAge[cat];
+  const ring0=[], ring1=[];
+  for(let i=0;i<PIPE_SIDES;i++){
+    const q=i*Math.PI*2/PIPE_SIDES;
+    const cs=Math.cos(q), sn=Math.sin(q);
+    ring0.push(add3(c0,add3(sc3(u,cs*r0),sc3(v,sn*r0))));
+    ring1.push(add3(c1,add3(sc3(u,cs*r1),sc3(v,sn*r1))));
+  }
+  for(let i=0;i<PIPE_SIDES;i++){
+    const j=(i+1)%PIPE_SIDES;
+    for(const p of [ring0[i],ring1[i],ring1[j],ring0[i],ring1[j],ring0[j]]){
+      dst.push(...p); ages.push(age);
+    }
+  }
+  pipeSegCount[cat]++;
+  pushStroke(x0,y0,z0,x1,y1,z1,cat,age);
+}
+
+// ─── Change 1: buildRing & pushPipeFromRing ──────────────────────────────────
+function buildRing(center, dir, radius){
+  const d=n3(dir);
+  let u=n3(cross3(d, Math.abs(d[1])<0.92?[0,1,0]:[1,0,0]));
+  let v=n3(cross3(d,u));
+  const ring=[];
+  for(let i=0;i<PIPE_SIDES;i++){
+    const q=i*Math.PI*2/PIPE_SIDES;
+    ring.push(add3(center, add3(sc3(u,Math.cos(q)*radius), sc3(v,Math.sin(q)*radius))));
+  }
+  return ring;
+}
+
+function pushPipeFromRing(startRing, endCenter, endDir, endRadius, cat){
+  const endRing=buildRing(endCenter, endDir, endRadius);
+  const dst=pipePos[cat], ages=pipeAge[cat];
+  for(let i=0;i<PIPE_SIDES;i++){
+    const j=(i+1)%PIPE_SIDES;
+    for(const p of [startRing[i],endRing[i],endRing[j],
+                    startRing[i],endRing[j],startRing[j]]){
+      dst.push(...p); ages.push(0);
+    }
+  }
+  pipeSegCount[cat]++;
+  const c0=startRing.reduce((a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],[0,0,0]).map(v=>v/PIPE_SIDES);
+  pushStroke(c0[0],c0[1],c0[2],endCenter[0],endCenter[1],endCenter[2],cat,0);
+  return endRing;
+}
+
+// ─── Trunk radius helper ─────────────────────────────────────────────────────
+function getTrunkRadiusAtHeight(h, totalH){
+  const t=clamp(h/totalH,0,1);
+  return baseRadius*(1-t*0.72);
+}
+
+// ─── Change 2: growInheritedAxis & growCompetitorAxis ────────────────────────
+
+// 継承軸：親幹の接線・中心線をほぼ維持して上方へ延伸する主導軸
+function growInheritedAxis(startRing, startCenter, startTangent, startRadius, targetTop, trunkH){
+  const height=Math.max(0.25, targetTop - startCenter[1]);
+  const steps=20;
+  // 継承軸は親幹方向からわずかに外側（約8°）へ傾く
+  const tiltAngle=8*Math.PI/180;
+  const worldUp=[0,1,0];
+  let side=n3(cross3(startTangent, worldUp));
+  if(len3(side)<0.001) side=[1,0,0];
+  const tiltedDir=n3(add3(sc3(startTangent,Math.cos(tiltAngle)), sc3(side,Math.sin(tiltAngle))));
+  let currentRing=startRing;
+  let currentCenter=[...startCenter];
+  let currentDir=[...tiltedDir];
+  for(let i=0;i<steps;i++){
+    const t0=i/steps, t1=(i+1)/steps;
+    // 2〜4節で太さを目標値へ漸進。その後は通常テーパー。
+    const rampBlend=Math.min(1, i/3);
+    const targetRadius=startRadius*0.82;
+    const r0=startRadius*(1-rampBlend)+targetRadius*rampBlend;
+    const taper=1-t1*0.72;
+    const r1=targetRadius*taper;
+    const segLen=height/steps;
+    // わずかな曲がり
+    const wave=Math.sin(i*0.85)*0.008*trunkCurveFlow;
+    const waveSide=n3(cross3(currentDir, Math.abs(currentDir[1])<0.92?[0,1,0]:[1,0,0]));
+    currentDir=n3(add3(currentDir, sc3(waveSide, wave)));
+    const nextCenter=add3(currentCenter, sc3(currentDir, segLen));
+    currentRing=pushPipeFromRing(currentRing, nextCenter, currentDir, r1, 'trunk');
+    currentCenter=nextCenter;
+  }
+}
+
+// 競合軸：外周側から発生し、数節で競合的な軸へ成長する
+function growCompetitorAxis(startRing, startCenter, startTangent, startRadius, targetTop, trunkH, theta, index, count){
+  const height=Math.max(0.25, targetTop - startCenter[1]);
+  const steps=20;
+  // 競合軸は親幹方向から約28°外側へ傾く
+  const tiltAngle=28*Math.PI/180;
+  const radial=n3([Math.cos(theta),0,Math.sin(theta)]);
+  const tiltedDir=n3(add3(
+    sc3(startTangent, Math.cos(tiltAngle)),
+    sc3(radial, Math.sin(tiltAngle))
+  ));
+  let currentRing=startRing;
+  let currentCenter=[...startCenter];
+  let currentDir=[...tiltedDir];
+  for(let i=0;i<steps;i++){
+    const t1=(i+1)/steps;
+    // 2〜4節で細さを目標値へ漸進
+    const rampBlend=Math.min(1, i/3);
+    // Change 6: count=3のとき競合軸の目標半径を0.43に変更
+    const targetRadius=startRadius*(count===3 ? 0.43 : 0.47);
+    const r0=startRadius*(1-rampBlend)+targetRadius*rampBlend;
+    const taper=1-t1*0.72;
+    const r1=targetRadius*taper;
+    const segLen=height/steps;
+    const wave=Math.sin(i*0.95+index*1.3)*0.012*trunkCurveFlow;
+    const waveSide=n3(cross3(currentDir, Math.abs(currentDir[1])<0.92?[0,1,0]:[1,0,0]));
+    currentDir=n3(add3(currentDir, sc3(waveSide, wave)));
+    const nextCenter=add3(currentCenter, sc3(currentDir, segLen));
+    currentRing=pushPipeFromRing(currentRing, nextCenter, currentDir, r1, 'trunk');
+    currentCenter=nextCenter;
+  }
+}
+
+// ─── Change 3: buildMonoToSymSkeleton (replaced) ─────────────────────────────
+function buildMonoToSymSkeleton(startRing, startCenter, trunkH, parentTangent){
+  const count=Math.max(2,Math.min(3,Math.round(skeletonState.axisSuccessorCount)));
+  const parentRadius=getTrunkRadiusAtHeight(startCenter[1], trunkH);
+  const phase=rr(0,Math.PI*2);
+
+  // 継承軸A：親幹の連続延長として1本
+  growInheritedAxis(startRing, startCenter, parentTangent, parentRadius, trunkH, trunkH);
+
+  // 競合軸B（およびC）：外周側から発生
+  const competitorCount=count-1;
+  for(let i=0;i<competitorCount;i++){
+    const theta=phase+i*Math.PI*2/competitorCount+(count===2?Math.PI:0);
+    growCompetitorAxis(startRing, startCenter, parentTangent, parentRadius, trunkH, trunkH, theta, i, count);
+  }
+}
+
+// ─── Branch & foliage generation ─────────────────────────────────────────────
+function pushLeaf(cx,cy,cz, nx,ny,nz, size, age){
+  const up=[0,1,0];
+  let t=n3(cross3([nx,ny,nz],up));
+  if(len3(t)<0.001) t=[1,0,0]; else t=n3(t);
+  const bt=n3(cross3([nx,ny,nz],t));
+  const hw=size*0.5, hh=size*0.65;
+  const verts=[
+    add3([cx,cy,cz],add3(sc3(t,-hw),sc3(bt,-hh))),
+    add3([cx,cy,cz],add3(sc3(t, hw),sc3(bt,-hh))),
+    add3([cx,cy,cz],add3(sc3(t, hw),sc3(bt, hh))),
+    add3([cx,cy,cz],add3(sc3(t,-hw),sc3(bt, hh))),
+  ];
+  const nrm=[nx,ny,nz];
+  const clr=[0.55+rng()*0.2, 0.72+rng()*0.15, 0.1+rng()*0.1, 0.9];
+  for(const tri of [[0,1,2],[0,2,3]]){
+    for(const idx of tri){
+      foliagePos.push(...verts[idx]);
+      foliageNrm.push(...nrm);
+      foliageClr.push(...clr);
+    }
+  }
+}
+
+function growMainBranch(ox,oy,oz, dx,dy,dz, length, radius, depth){
+  const steps=12;
+  let cx=ox,cy=oy,cz=oz;
+  let dir=n3([dx,dy,dz]);
+  for(let i=0;i<steps;i++){
+    const t=(i+1)/steps;
+    const r0=radius*(1-i/steps*0.6);
+    const r1=radius*(1-(i+1)/steps*0.6);
+    const sl=length/steps;
+    const wave=(rng()-0.5)*0.04*trunkCurveFlow;
+    const ws=n3(cross3(dir,Math.abs(dir[1])<0.92?[0,1,0]:[1,0,0]));
+    dir=n3(add3(dir,sc3(ws,wave)));
+    const nx2=cx+dir[0]*sl, ny2=cy+dir[1]*sl, nz2=cz+dir[2]*sl;
+    if(showPipe==='both'){
+      pushPipe(cx,cy,cz,nx2,ny2,nz2,r0,r1,'branch',0);
+    }
+    // spawn leaves
+    const leafN=Math.round(leafDensity*(2+rng()*3));
+    for(let l=0;l<leafN;l++){
+      const lt=rng();
+      const lx=lerp(cx,nx2,lt), ly=lerp(cy,ny2,lt), lz=lerp(cz,nz2,lt);
+      const ln=n3([rng()-0.5,0.5+rng()*0.5,rng()-0.5]);
+      pushLeaf(lx,ly,lz,ln[0],ln[1],ln[2],leafSize*(0.8+rng()*0.4),0);
+    }
+    cx=nx2; cy=ny2; cz=nz2;
+    if(depth>0 && i===Math.floor(steps/2)){
+      const bDir=n3(add3(dir,[rng()-0.5,0.2,rng()-0.5]));
+      growMainBranch(cx,cy,cz,bDir[0],bDir[1],bDir[2],length*0.55,r1*0.7,depth-1);
+    }
+  }
+}
+
+// ─── Change 4: buildTree with trunkFinalRing tracking ────────────────────────
+function buildTree(){
+  seedRng(seedVal);
+  clearBuffers();
+
+  const splitH=trunkH*splitRatio;
+  let cx=0, cy=0, cz=0;
+  let dir=[0,1,0];
+  let terminalTrunkTangent=[0,1,0];
+
+  // Change 4: track trunk final ring and center
+  let trunkFinalRing=null;
+  let trunkFinalCenter=[0,0,0];
+
+  for(let i=0;i<TRUNK_SEGMENTS;i++){
+    const tCurr=i/TRUNK_SEGMENTS;
+    const tNext=(i+1)/TRUNK_SEGMENTS;
+    const y0=tCurr*trunkH;
+    const y1=tNext*trunkH;
+
+    // Stop trunk at split height
+    if(y0>=splitH) break;
+
+    const r0=getTrunkRadiusAtHeight(y0, trunkH);
+    const r1=getTrunkRadiusAtHeight(y1, trunkH);
+
+    // slight curve
+    const wave=(rng()-0.5)*0.018*trunkCurveFlow;
+    const waveZ=(rng()-0.5)*0.018*trunkCurveFlow;
+    const ws=n3(cross3(dir,Math.abs(dir[1])<0.92?[0,1,0]:[1,0,0]));
+    const wz=n3(cross3(dir,ws));
+    dir=n3(add3(add3(dir,sc3(ws,wave)),sc3(wz,waveZ)));
+
+    const nx=cx+dir[0]*(trunkH/TRUNK_SEGMENTS);
+    const nz=cz+dir[2]*(trunkH/TRUNK_SEGMENTS);
+    const clampY1=Math.min(y1,splitH);
+
+    pushPipe(cx,cy,cz,nx,clampY1,nz,r0,r1,'trunk',0);
+
+    terminalTrunkTangent=[...dir];
+
+    // Change 4: record final ring when this is last trunk segment before split
+    const nextY=(i+2)/TRUNK_SEGMENTS*trunkH;
+    if(nextY>=splitH || i===TRUNK_SEGMENTS-1){
+      trunkFinalRing=buildRing([nx,clampY1,nz], terminalTrunkTangent, r1);
+      trunkFinalCenter=[nx,clampY1,nz];
+      cx=nx; cy=clampY1; cz=nz;
+      break;
+    }
+    cx=nx; cy=clampY1; cz=nz;
+  }
+
+  // Ensure we have a final ring
+  if(!trunkFinalRing){
+    trunkFinalRing=buildRing([cx,cy,cz], terminalTrunkTangent,
+      getTrunkRadiusAtHeight(cy,trunkH));
+    trunkFinalCenter=[cx,cy,cz];
+  }
+
+  // Change 4: updated call signature
+  buildMonoToSymSkeleton(trunkFinalRing, trunkFinalCenter, trunkH, terminalTrunkTangent);
+
+  // Main branches from trunk
+  const branchStartH=trunkH*0.2;
+  const branchEndH=splitH;
+  for(let b=0;b<mainBranchCount;b++){
+    const bh=branchStartH+rng()*(branchEndH-branchStartH);
+    const bt=bh/trunkH;
+    const bAngle=rng()*Math.PI*2;
+    const bdir=n3([Math.cos(bAngle)*0.8,0.5+rng()*0.3,Math.sin(bAngle)*0.8]);
+    const blen=(0.6+rng()*0.8)*(trunkH*0.25);
+    const brad=getTrunkRadiusAtHeight(bh,trunkH)*0.45;
+    growMainBranch(cx*bt,bh,cz*bt,bdir[0],bdir[1],bdir[2],blen,brad,2);
+  }
+
+  uploadGeometry();
+}
+
+// ─── WebGL setup ─────────────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl',{antialias:true});
+if(!gl){ alert('WebGL not supported'); }
+
+function compileShader(src,type){
+  const s=gl.createShader(type);
+  gl.shaderSource(s,src);
+  gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){
+    console.error(gl.getShaderInfoLog(s));
+  }
+  return s;
+}
+function makeProgram(vs,fs){
+  const p=gl.createProgram();
+  gl.attachShader(p,compileShader(vs,gl.VERTEX_SHADER));
+  gl.attachShader(p,compileShader(fs,gl.FRAGMENT_SHADER));
+  gl.linkProgram(p);
+  if(!gl.getProgramParameter(p,gl.LINK_STATUS)){
+    console.error(gl.getProgramInfoLog(p));
+  }
+  return p;
+}
+
+// ─── Shaders ─────────────────────────────────────────────────────────────────
+const VS = `
+attribute vec3 aPos;
+attribute float aAge;
+uniform mat4 uMVP;
+uniform float uTime;
+varying float vAge;
+varying vec3 vPos;
+void main(){
+  vAge=aAge;
+  vPos=aPos;
+  gl_Position=uMVP*vec4(aPos,1.0);
+}`;
+
+const FS = `
+precision mediump float;
+varying float vAge;
+varying vec3 vPos;
+uniform vec3 uBaseColor;
+uniform float uTime;
+void main(){
+  float ao=0.6+0.4*clamp(vPos.y*0.08,0.0,1.0);
+  vec3 c=uBaseColor*ao;
+  gl_FragColor=vec4(c,1.0);
+}`;
+
+const FOLIAGE_VS = `
+attribute vec3 aPos;
+attribute vec3 aNrm;
+attribute vec4 aClr;
+uniform mat4 uMVP;
+uniform vec3 uSunDir;
+varying vec4 vClr;
+varying float vDiff;
+void main(){
+  float diff=max(dot(aNrm,uSunDir),0.0)*0.6+0.4;
+  vDiff=diff;
+  vClr=aClr;
+  gl_Position=uMVP*vec4(aPos,1.0);
+}`;
+
+const FOLIAGE_FS = `
+precision mediump float;
+varying vec4 vClr;
+varying float vDiff;
+void main(){
+  gl_FragColor=vec4(vClr.rgb*vDiff,vClr.a);
+}`;
+
+const trunkProg = makeProgram(VS,FS);
+const foliageProg = makeProgram(FOLIAGE_VS,FOLIAGE_FS);
+
+// ─── Buffers ─────────────────────────────────────────────────────────────────
+const bufs = {
+  trunkPos: gl.createBuffer(),
+  trunkAge: gl.createBuffer(),
+  branchPos: gl.createBuffer(),
+  branchAge: gl.createBuffer(),
+  foliagePos: gl.createBuffer(),
+  foliageNrm: gl.createBuffer(),
+  foliageClr: gl.createBuffer(),
+};
+let trunkVertCount=0, branchVertCount=0, foliageVertCount=0;
+
+function uploadBuf(buf, data, type){
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new type(data), gl.DYNAMIC_DRAW);
+}
+
+function uploadGeometry(){
+  uploadBuf(bufs.trunkPos,  pipePos.trunk,  Float32Array);
+  uploadBuf(bufs.trunkAge,  pipeAge.trunk,  Float32Array);
+  uploadBuf(bufs.branchPos, pipePos.branch, Float32Array);
+  uploadBuf(bufs.branchAge, pipeAge.branch, Float32Array);
+  uploadBuf(bufs.foliagePos, foliagePos, Float32Array);
+  uploadBuf(bufs.foliageNrm, foliageNrm, Float32Array);
+  uploadBuf(bufs.foliageClr, foliageClr, Float32Array);
+  trunkVertCount  = pipePos.trunk.length/3;
+  branchVertCount = pipePos.branch.length/3;
+  foliageVertCount= foliagePos.length/3;
+}
+
+// ─── Camera / MVP ─────────────────────────────────────────────────────────────
+let camTheta=0.5, camPhi=0.35, camDist=18;
+let dragging=false, lastX=0, lastY=0;
+canvas.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;});
+window.addEventListener('mousemove',e=>{
+  if(!dragging)return;
+  camTheta-=(e.clientX-lastX)*0.005;
+  camPhi  -=(e.clientY-lastY)*0.005;
+  camPhi=Math.max(-Math.PI/2+0.05,Math.min(Math.PI/2-0.05,camPhi));
+  lastX=e.clientX;lastY=e.clientY;
+});
+window.addEventListener('mouseup',()=>dragging=false);
+canvas.addEventListener('wheel',e=>{camDist=Math.max(2,Math.min(60,camDist+e.deltaY*0.01));});
+
+function mat4Mul(a,b){
+  const r=new Float32Array(16);
+  for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+    let s=0; for(let k=0;k<4;k++) s+=a[i*4+k]*b[k*4+j];
+    r[i*4+j]=s;
+  }
+  return r;
+}
+function perspective(fov,aspect,near,far){
+  const f=1/Math.tan(fov/2);
+  return new Float32Array([
+    f/aspect,0,0,0,
+    0,f,0,0,
+    0,0,(far+near)/(near-far),-1,
+    0,0,2*far*near/(near-far),0,
+  ]);
+}
+function lookAt(eye,at,up){
+  const z=n3(sub3(eye,at));
+  const x=n3(cross3(up,z));
+  const y=cross3(z,x);
+  return new Float32Array([
+    x[0],y[0],z[0],0,
+    x[1],y[1],z[1],0,
+    x[2],y[2],z[2],0,
+    -dot3(x,eye),-dot3(y,eye),-dot3(z,eye),1,
+  ]);
+}
+
+function getMVP(){
+  const eye=[
+    Math.sin(camTheta)*Math.cos(camPhi)*camDist,
+    trunkH*0.5+Math.sin(camPhi)*camDist,
+    Math.cos(camTheta)*Math.cos(camPhi)*camDist,
+  ];
+  const at=[0,trunkH*0.5,0];
+  const up=[0,1,0];
+  const W=canvas.width, H=canvas.height;
+  const proj=perspective(0.7,W/H,0.1,200);
+  const view=lookAt(eye,at,up);
+  return mat4Mul(proj,view);
+}
+
+// ─── Draw helpers ─────────────────────────────────────────────────────────────
+function bindAttrib(prog,name,buf,size){
+  const loc=gl.getAttribLocation(prog,name);
+  if(loc<0)return;
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc,size,gl.FLOAT,false,0,0);
+}
+
+function drawPipes(prog,posBuf,ageBuf,count,baseColor){
+  if(count===0)return;
+  gl.useProgram(prog);
+  const mvp=getMVP();
+  gl.uniformMatrix4fv(gl.getUniformLocation(prog,'uMVP'),false,mvp);
+  gl.uniform3fv(gl.getUniformLocation(prog,'uBaseColor'),new Float32Array(baseColor));
+  gl.uniform1f(gl.getUniformLocation(prog,'uTime'),performance.now()*0.001);
+  bindAttrib(prog,'aPos',posBuf,3);
+  bindAttrib(prog,'aAge',ageBuf,1);
+  gl.drawArrays(gl.TRIANGLES,0,count);
+}
+
+function drawFoliage(prog,count){
+  if(count===0)return;
+  gl.useProgram(prog);
+  const mvp=getMVP();
+  gl.uniformMatrix4fv(gl.getUniformLocation(prog,'uMVP'),false,mvp);
+  const sunDir=n3([0.4,0.8,0.3]);
+  gl.uniform3fv(gl.getUniformLocation(prog,'uSunDir'),new Float32Array(sunDir));
+  bindAttrib(prog,'aPos',bufs.foliagePos,3);
+  bindAttrib(prog,'aNrm',bufs.foliageNrm,3);
+  bindAttrib(prog,'aClr',bufs.foliageClr,4);
+  gl.drawArrays(gl.TRIANGLES,0,count);
+}
+
+// ─── Render loop ──────────────────────────────────────────────────────────────
+function resize(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  gl.viewport(0,0,canvas.width,canvas.height);
+}
+window.addEventListener('resize',resize);
+resize();
+
+function render(){
+  gl.clearColor(0.04,0.04,0.07,1);
+  gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+  gl.enable(gl.DEPTH_TEST);
+  gl.depthFunc(gl.LEQUAL);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+
+  // Trunk
+  drawPipes(trunkProg,bufs.trunkPos,bufs.trunkAge,trunkVertCount,[0.38,0.28,0.18]);
+  // Branch
+  if(showPipe==='both'){
+    drawPipes(trunkProg,bufs.branchPos,bufs.branchAge,branchVertCount,[0.45,0.35,0.22]);
+  }
+  // Foliage
+  drawFoliage(foliageProg,foliageVertCount);
+
+  requestAnimationFrame(render);
+}
+
+// ─── Settings ─────────────────────────────────────────────────────────────────
+function collectSettings(){
+  return {
+    seed: seedVal,
+    trunkH, baseRadius, trunkCurveFlow, splitRatio,
+    mainBranchCount, leafDensity, leafSize, showPipe,
+    axisSuccessorCount: skeletonState.axisSuccessorCount,
+    engineRevision: 'axis-transition-inherited-axis-level2-v1',
+    connectedFeature: 'inheritedCompetitorAxis',
+  };
+}
+
+function applySettings(s){
+  if(s.seed!==undefined) seedVal=s.seed;
+  if(s.trunkH!==undefined) trunkH=s.trunkH;
+  if(s.baseRadius!==undefined) baseRadius=s.baseRadius;
+  if(s.trunkCurveFlow!==undefined) trunkCurveFlow=s.trunkCurveFlow;
+  if(s.splitRatio!==undefined) splitRatio=s.splitRatio;
+  if(s.mainBranchCount!==undefined) mainBranchCount=s.mainBranchCount;
+  if(s.leafDensity!==undefined) leafDensity=s.leafDensity;
+  if(s.leafSize!==undefined) leafSize=s.leafSize;
+  if(s.showPipe!==undefined) showPipe=s.showPipe;
+  if(s.axisSuccessorCount!==undefined) skeletonState.axisSuccessorCount=s.axisSuccessorCount;
+  skeletonState.engineRevision='axis-transition-inherited-axis-level2-v1';
+  skeletonState.connectedFeature='inheritedCompetitorAxis';
+  syncUI();
+}
+
+function syncUI(){
+  const set=(id,v,disp)=>{
+    const el=document.getElementById(id);
+    if(el) el.value=v;
+    const sp=document.getElementById(disp);
+    if(sp) sp.textContent=parseFloat(v).toFixed(typeof v==='number'&&v!==Math.round(v)?2:1);
+  };
+  set('s-trunkH',trunkH,'v-trunkH');
+  set('s-baseRadius',baseRadius,'v-baseRadius');
+  set('s-trunkCurveFlow',trunkCurveFlow,'v-trunkCurveFlow');
+  set('s-splitRatio',splitRatio,'v-splitRatio');
+  set('s-mainBranchCount',mainBranchCount,'v-mainBranchCount');
+  set('s-leafDensity',leafDensity,'v-leafDensity');
+  set('s-leafSize',leafSize,'v-leafSize');
+  set('s-seed',seedVal,'v-seed');
+  set('s-axisSuccessorCount',skeletonState.axisSuccessorCount,'v-axisSuccessorCount');
+  const sp=document.getElementById('sel-showPipe');
+  if(sp) sp.value=showPipe;
+}
+
+// ─── UI event wiring ──────────────────────────────────────────────────────────
+function bindSlider(id,dispId,setter,decimals){
+  const el=document.getElementById(id);
+  const sp=document.getElementById(dispId);
+  if(!el)return;
+  el.addEventListener('input',()=>{
+    const v=parseFloat(el.value);
+    if(sp) sp.textContent=v.toFixed(decimals);
+    setter(v);
+    buildTree();
+  });
+}
+
+bindSlider('s-trunkH','v-trunkH',v=>trunkH=v,1);
+bindSlider('s-baseRadius','v-baseRadius',v=>baseRadius=v,3);
+bindSlider('s-trunkCurveFlow','v-trunkCurveFlow',v=>trunkCurveFlow=v,2);
+bindSlider('s-splitRatio','v-splitRatio',v=>splitRatio=v,2);
+bindSlider('s-mainBranchCount','v-mainBranchCount',v=>mainBranchCount=Math.round(v),0);
+bindSlider('s-leafDensity','v-leafDensity',v=>leafDensity=v,2);
+bindSlider('s-leafSize','v-leafSize',v=>leafSize=v,3);
+bindSlider('s-seed','v-seed',v=>{ seedVal=Math.round(v); document.getElementById('v-seed').textContent=seedVal; },0);
+bindSlider('s-axisSuccessorCount','v-axisSuccessorCount',v=>{ skeletonState.axisSuccessorCount=Math.round(v); },0);
+
+document.getElementById('sel-showPipe').addEventListener('change',e=>{
+  showPipe=e.target.value; buildTree();
+});
+
+document.getElementById('btn-regen').addEventListener('click',()=>buildTree());
+
+document.getElementById('btn-save').addEventListener('click',()=>{
+  const s=collectSettings();
+  const blob=new Blob([JSON.stringify(s,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ginkgo_level2_settings.json';
+  a.click();
+});
+
+document.getElementById('btn-load').addEventListener('click',()=>{
+  document.getElementById('inp-load').click();
+});
+document.getElementById('inp-load').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const s=JSON.parse(ev.target.result);
+      applySettings(s);
+      buildTree();
+    }catch(err){ console.error('JSON parse error',err); }
+  };
+  r.readAsText(f);
+  e.target.value='';
+});
+
+// ─── Bootstrap ────────────────────────────────────────────────────────────────
+syncUI();
+buildTree();
+render();
+</script>
+</body>
+</html>
